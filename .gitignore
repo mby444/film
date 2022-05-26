@@ -1,0 +1,5 @@
+/node_modules
+*.rest
+.env
+test.js
+*.test.js
