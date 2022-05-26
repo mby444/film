@@ -1,7 +1,4 @@
-import { Tmdb, NotFoundError } from "tmdb";
 import fetch from "node-fetch";
-
-const tmdb = new Tmdb(process.env.API_KEY_FILM);
 
 const getFilm = async (filmId=0) => {
     try {

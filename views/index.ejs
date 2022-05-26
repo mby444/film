@@ -5,9 +5,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MBY444 - ALL FILM TRAILERS and INFO</title>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
 </head>
 <body>
+    <header class="container-fluid d-flex justify-content-center align-items-center bg-warning pt-2 pb-2">
+        <div class="title-conteiner conteiner-sm d-flex justify-content-center align-items-center flex-column">
+            <h1 class="h1">MBY444</h1>
+            <h4 class="h4">Film Informations and Trailers</h4>
+        </div>
+    </header>
+    <div class="main-container container-fluid pt-5">
+        <form action="/film/search" method="get" class="container-md d-flex justify-content-center align-items-center flex-row">
+            <input type="text" name="q" id="q-input" placeholder="Search film..." class="form-control" style="max-width:500px;">
+            <input type="submit" value="search" class="search-btn btn btn-dark">
+        </form>
+    </div>
     <script src="/js/main.js"></script>
 </body>
 </html>
