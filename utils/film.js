@@ -7,16 +7,16 @@ const searchFilm = async (filmName="") => {
     if (!filmName) return {};
     try {
         const films = await fetch(`https://api.themoviedb.org/3/search/movie?query=${filmName}&api_key=${process.env.API_KEY_FILM}`);
-        const data = films.json();
+        const data = await films.json();
+        if (data.results.length === 0) throw { name: "NotFoundError" };
         return data;
-    } catch(err) {
-        let errObj = {
+    } 
+    catch(err) {
+        const errObj = {
             error: true,
             message: err.message
-        };
-        if (err instanceof NotFoundError) {
-            errObj.message = `${filmName} did not match any results`;
         }
+        err.name === "NotFoundError" ? errObj.message = `${filmName} did match any results` : 0;
         return errObj;
     }
 };
