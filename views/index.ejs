@@ -33,7 +33,7 @@
             <% if (films && !filmError) { %>
                 <% films.results.forEach((result, i) => { %>
                     <div class="card m-2 mt-4 mb-4" style="width: 25vw;">
-                        <a href="/detail/<%= result.id %>">
+                        <a href="/info/<%= result.id %>">
                             <img src="https://image.tmdb.org/t/p/w500<%= result.poster_path %>" class="card-img-top" alt="<%= result.title %>">
                         </a>
                         <div class="card-body">

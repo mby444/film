@@ -1,5 +1,5 @@
 import express from "express";
-import { searchFilms } from "../utils/film.js";
+import { searchFilms, getFilm, getTrailerKey } from "../utils/film.js";
 
 const router = express.Router();
 
@@ -22,6 +22,13 @@ router.get("/search", async (req, res) => {
     };
 
     res.render("index", options);
+});
+
+router.get("/info/:id", async (req, res) => {
+    const { id: filmId } = req.params;
+    const film = await getFilm(filmId);
+    const trailer = await getTrailerKey(filmId);
+    res.send(trailer);
 });
 
 export default router;

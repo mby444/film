@@ -1,6 +1,12 @@
+import dotenv from "dotenv";
 import fetch from "node-fetch";
+import { Tmdb } from "tmdb";
 
-const getFilm = async (filmId=0) => {
+dotenv.config();
+
+const tmdb = new Tmdb(process.env.API_KEY_FILM);
+
+const getFilm = async (filmId="") => {
     try {
         if (!filmId) throw { name: "UndefinedError" };
         const film = await fetch(`https://api.themoviedb.org/3/movie/${filmId}?api_key=${process.env.API_KEY_FILM}`);
@@ -11,7 +17,7 @@ const getFilm = async (filmId=0) => {
     catch (err) {
         const errObj = {
             error: true,
-            message: err.message
+            message: "Something went wrong! check your internet connction."
         };
         err.name === "NotFoundError" ? errObj.message = `Film with id ${filmId} not found` 
         : err.name === "UndefinedError" ? errObj.message = "Something went wrong"
@@ -32,16 +38,35 @@ const searchFilms = async (filmName="", page=1) => {
     catch(err) {
         const errObj = {
             error: true,
-            message: err.message
+            message: "Something went wrong! check your internet connction."
         };
-        err.name === "NotFoundError" ? errObj.message = `${filmName} did not match any results` 
+        err.name === "NotFoundError" ? errObj.message = `"${filmName}" did not match any results` 
         : err.name === "UndefinedError" ? errObj.message = "Something went wrong"
         : 0;
         return errObj;
     }
 };
 
+const getOfficialTrailer = (trailers=[]) => {
+    let output = trailers[0];
+    trailers.forEach((trailer, i) => {
+        let outputPublishTime = output.publishedAt ? new Date(output.publishedAt).getTime() : 0;
+        let publishTime = new Date(trailer.publishedAt).getTime();
+        if (outputPublishTime > publishTime) {
+            output = trailer;
+        }
+    });
+    return output;
+};
+
+const getTrailerKey = async (filmId) => {
+    const rawTrailers = await tmdb.getMovieVideos(filmId);
+    const trailer = getOfficialTrailer(rawTrailers);
+    return trailer.key;
+};
+
 export {
     searchFilms,
-    getFilm
+    getFilm,
+    getTrailerKey
 };
