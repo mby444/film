@@ -17,7 +17,7 @@ const getFilm = async (filmId="") => {
     catch (err) {
         const errObj = {
             error: true,
-            message: "Something went wrong! check your internet connction."
+            message: "Something went wrong"
         };
         err.name === "NotFoundError" ? errObj.message = `Film with id ${filmId} not found` 
         : err.name === "UndefinedError" ? errObj.message = "Something went wrong"
@@ -38,7 +38,7 @@ const searchFilms = async (filmName="", page=1) => {
     catch(err) {
         const errObj = {
             error: true,
-            message: "Something went wrong! check your internet connction."
+            message: "Something went wrong"
         };
         err.name === "NotFoundError" ? errObj.message = `"${filmName}" did not match any results` 
         : err.name === "UndefinedError" ? errObj.message = "Something went wrong"
@@ -62,7 +62,8 @@ const getOfficialTrailer = (trailers=[]) => {
 const getTrailerKey = async (filmId) => {
     const rawTrailers = await tmdb.getMovieVideos(filmId);
     const trailer = getOfficialTrailer(rawTrailers);
-    return trailer.key;
+    const key = trailer ? trailer.key : "";
+    return key;
 };
 
 export {

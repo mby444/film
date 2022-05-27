@@ -5,6 +5,9 @@ const router = express.Router();
 
 router.get("/", (req, res) => {
     const options = {
+        query: null,
+        pageTotal: null,
+        page: null,
         films: null,
         filmError: null
     };
@@ -15,8 +18,12 @@ router.get("/", (req, res) => {
 router.get("/search", async (req, res) => {
     const { q, page } = req.query;
     const films = await searchFilms(q, page);
+    const pageTotal = films.total_pages;
     const filmError = films.error ? films.message : null;
     const options = {
+        query: q,
+        pageTotal,
+        page: page || 1,
         films,
         filmError
     };

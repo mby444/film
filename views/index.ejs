@@ -24,6 +24,13 @@
             <input type="text" name="q" id="q-input" placeholder="Search film..." required class="form-control" style="max-width:500px;">
             <input type="submit" value="Search" class="search-btn btn btn-dark">
         </form>
+        <% if (query) { %>
+            <div class="pointer container-sm d-flex justify-content-center">
+                <a href="/search?q=<%= query %>&page=<%= +page - 1 <= 0 ? 1 : +page - 1 %>" class="btn btn-dark text-white">&#10094;</a>
+                <input type="text" value="Page <%= page %> of <%= pageTotal %>" class="text-center" disabled>
+                <a href="/search?q=<%= query %>&page=<%= +page + 1 > +pageTotal ? +page : +page + 1 %>" class="btn btn-dark text-white">&#10095;</a>
+            </div>
+        <% } %>
         <% if (filmError) { %>
             <div class="error-container conteiner-sm alert alert-danger d-flex justify-content-center align-items-center mt-2 mb-2" style="max-width:500px; position:relative; left:50%; transform:translate(-50%,0);">
                 <%= filmError %>
@@ -47,6 +54,19 @@
             <% } %>
         </div>
     </div>
+    <footer class="container-fluid bg-dark p-2 pt-4 pb-4">
+        <div class="form-req-container container-md d-flex justify-content-center align-items-center flex-column">
+            <h5 class="h5 text-center text-white pt-2 pb-2">Any request&quest;</h5>
+            <form action="/" class="form-req container-sm d-flex justify-content-center align-items-center flex-column">
+                <input type="email" name="email" id="email-input" class="form-control mt-2 mb-2" placeholder="Email" required>
+                <textarea name="message" id="message-input" cols="30" rows="4" class="form-control mt-3 mb-2" placeholder="Any message..." required></textarea>
+                <input type="submit" value="Send" class="req-btn btn btn-warning text-dark mt-3 mb-3">
+            </form>
+        </div>
+        <div class="copyright-container container-fluid text-center mt-4">
+            <p class="copyright text-white" style="font-size:12px;">&copy; 2022 <%= new Date().getFullYear() === 2022 ? "" : `- ${new Date().getFullYear()}` %> MBY444</p>
+        </div>
+    </footer>
     <script src="/js/main.js"></script>
 </body>
 </html>
