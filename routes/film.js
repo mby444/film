@@ -1,5 +1,5 @@
 import express from "express";
-import { searchFilm, getFilm } from "../utils/film.js";
+import { searchFilms, getFilm } from "../utils/film.js";
 
 const router = express.Router();
 
@@ -11,7 +11,7 @@ router.get("/id/:id", async (req, res) => {
 
 router.get("/search", async (req, res) => {
     const { q } = req.query;
-    const films = await searchFilm(q);
+    const films = await searchFilms(q);
     res.json(films);
 });
 
