@@ -34,8 +34,12 @@ router.get("/search", async (req, res) => {
 router.get("/info/:id", async (req, res) => {
     const { id: filmId } = req.params;
     const film = await getFilm(filmId);
-    const trailer = await getTrailerKey(filmId);
-    res.send(trailer);
+    const trailerKey = await getTrailerKey(filmId);
+    const options = {
+        film,
+        trailerKey
+    };
+    res.render("film", options);
 });
 
 export default router;

@@ -24,7 +24,7 @@
             <input type="text" name="q" id="q-input" value="<%= filmError ? query : "" %>" placeholder="Search film..." required class="form-control" style="max-width:500px;">
             <input type="submit" value="Search" class="search-btn btn btn-dark">
         </form>
-        <% if (query) { %>
+        <% if (query && !filmError) { %>
             <div class="pointer container-sm d-flex justify-content-center mt-5">
                 <a href="/search?q=<%= query %>&page=<%= +page - 1 <= 0 ? 1 : +page - 1 %>" class="btn btn-dark text-white">&#10094;</a>
                 <input type="text" value="Page <%= page %> of <%= pageTotal %>" class="text-center" disabled>
@@ -32,7 +32,7 @@
             </div>
         <% } %>
         <% if (filmError) { %>
-            <div class="error-container conteiner-sm alert alert-danger d-flex justify-content-center align-items-center mt-2 mb-2" style="max-width:500px; position:relative; left:50%; transform:translate(-50%,0);">
+            <div class="error-container conteiner-sm alert alert-danger d-flex justify-content-center align-items-center mt-5 mb-2" style="max-width:500px; position:relative; left:50%; transform:translate(-50%,0);">
                 <%= filmError %>
             </div>
         <% } %>
@@ -53,7 +53,7 @@
                 <% }) %>
             <% } %>
         </div>
-        <% if (query) { %>
+        <% if (query && !filmError) { %>
             <div class="pointer container-sm d-flex justify-content-center mt-2">
                 <a href="/search?q=<%= query %>&page=<%= +page - 1 <= 0 ? 1 : +page - 1 %>" class="btn btn-dark text-white">&#10094;</a>
                 <input type="text" value="Page <%= page %> of <%= pageTotal %>" class="text-center" disabled>

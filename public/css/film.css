@@ -1,0 +1,13 @@
+header {
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 250px;
+    background-position: center;
+}
+
+.title-container {
+    width: 100%;
+    height: 75%;
+    max-width: 650px;
+    background-color: rgba(255, 255, 251, 0.5);
+}
