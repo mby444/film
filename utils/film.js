@@ -32,6 +32,7 @@ const searchFilms = async (filmName="", page=1) => {
         const films = await fetch(`https://api.themoviedb.org/3/search/movie?query=${filmName}&page=${page}&api_key=${process.env.API_KEY_FILM}`);
         const data = await films.json();
         data.results = data.results.filter((result) => result.vote_average && result.poster_path);
+        if (page < 1 || page > data.total_pages) throw { name: "OutOfRange" };
         if (data.results.length === 0) throw { name: "NotFoundError" };
         return data;
     } 
@@ -40,7 +41,8 @@ const searchFilms = async (filmName="", page=1) => {
             error: true,
             message: "Something went wrong"
         };
-        err.name === "NotFoundError" ? errObj.message = `"${filmName}" did not match any results` 
+        err.name === "OutOfRange" ? errObj.message = "Page not found"
+        : err.name === "NotFoundError" ? errObj.message = `"${filmName}" did not match any results` 
         : err.name === "UndefinedError" ? errObj.message = "Something went wrong"
         : 0;
         return errObj;

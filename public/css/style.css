@@ -2,6 +2,24 @@ body {
     min-height: 100vh;
 }
 
-.form-req {
+.form-quest, .form-req {
     max-width: 450px;
+}
+
+.film-title {
+    font-size: 11pt;
+}
+
+.film-text {
+    font-size: 10pt;
+}
+
+@media screen and (min-width: 780px) {
+    .film-title {
+        font-size: 15pt;
+    }
+    
+    .film-text {
+        font-size: 12pt;
+    }
 }
