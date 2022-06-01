@@ -1,5 +1,8 @@
 <% 
-const filmTitle = film.title + `(${film.release_date.split("-")[0]})`;
+const filmTitle = film.title + ` (${film.release_date.split("-")[0]})`;
+const starIcon = `<svg style="position:relative; transform:translate(0,-22%);" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                          </svg>`;
 %> 
 
 <!DOCTYPE html>
@@ -17,11 +20,34 @@ const filmTitle = film.title + `(${film.release_date.split("-")[0]})`;
     <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
 </head>
 <body>
-    <header <%= `style=background-image:url('https://image.tmdb.org/t/p/w500${film.backdrop_path}');` %> class="container-fluid d-flex justify-content-center align-items-center bg-dark pt-2 pb-2">
-        <div class="title-container conteiner-md d-flex justify-content-center align-items-center flex-column rounded">
-            <h1 class="h1"><%= filmTitle %></h1>
-            <h4 class="h4">The Movie</h4>
+    <header class="container-fluid d-flex justify-content-center align-items-center bg-dark pt-2 pb-2">
+        <div <%= `style=background-image:url('https://image.tmdb.org/t/p/w500${film.backdrop_path}');` %> class="backdrop-path conteiner-md d-flex justify-content-center align-items-center flex-column rounded">
+            <div class="title-container rounded">
+                <h1 class="h1"><%= film.title %></h1>
+                <h4 class="h4">The Movie</h4>
+            </div>
         </div>
     </header>
+    <div class="main-container container-fluid pt-4 pb-4">
+        <div class="summary-container container-md d-flex justify-content-center align-items-centers p-2 pt-4">
+            <div class="card m-2" style="width:25vw;">
+                <img src="https://image.tmdb.org/t/p/w500<%= film.poster_path %>" alt="Poster">
+            </div>
+            <div class="info m-4 mt-2 mb-2">
+                <h2 class="h2"><%= filmTitle %></h2>
+                <div class="genre-container mt-2 mb-2">
+                    <% film.genres.forEach((genre) => { %>
+                        <span class="badge bg-warning text-dark"><%= genre.name %></span>
+                    <% }) %>
+                </div>
+                <div class="rating-container mt-2 mb-2">
+                    <%- starIcon %> <%= film.vote_average %> (<%= film.vote_count %>&nbsp;vote<%= film.vote_count > 1 ? "s" : "" %>)
+                </div>
+                <div class="duration-container mt-2 mb-2">
+                    <%= utils.formatFilmDuration(film.runtime) %>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
