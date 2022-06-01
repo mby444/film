@@ -6,6 +6,32 @@ dotenv.config();
 
 const tmdb = new Tmdb(process.env.API_KEY_FILM);
 
+class MainInformation {
+    constructor(key, value){
+        this.key = key;
+        this.value = value;
+    }
+}
+
+const getMainInformations = (film) => {
+    const informations = [
+        new MainInformation("Title", film.title),
+        new MainInformation("Genre", film.genres.map(g => g.name).join(", ")),
+        new MainInformation("Duration", film.runtime),
+        new MainInformation("Status", film.status),
+        new MainInformation("Release date", film.release_date),
+        new MainInformation("Vote average", film.vote_average),
+        new MainInformation("Vote count", film.vote_count),
+        new MainInformation("Popularity", film.popularity),
+        new MainInformation("Home page", film.homepage),
+        new MainInformation("Production countries", film.production_countries.map(p => p.name).join(", ")),
+        new MainInformation("Languages", film.spoken_languages.map(l => l.english_name).join(", ")),
+        new MainInformation("Budget", `$${film.budget}`),
+        new MainInformation("Revenue", `$${film.revenue}`)
+    ];
+    return informations;
+};
+
 const getFilm = async (filmId="") => {
     try {
         if (!filmId) throw { name: "UndefinedError" };
@@ -24,7 +50,7 @@ const getFilm = async (filmId="") => {
         : 0;
         return errObj;
     }
-}
+};
 
 const searchFilms = async (filmName="", page=1) => {
     try {
@@ -71,5 +97,6 @@ const getTrailerKey = async (filmId) => {
 export {
     searchFilms,
     getFilm,
-    getTrailerKey
+    getTrailerKey,
+    getMainInformations
 };

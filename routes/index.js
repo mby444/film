@@ -1,5 +1,5 @@
 import express from "express";
-import { searchFilms, getFilm, getTrailerKey } from "../utils/film.js";
+import { searchFilms, getFilm, getTrailerKey, getMainInformations } from "../utils/film.js";
 import { formatFilmDuration } from "../utils/formatter.js";
 
 const router = express.Router();
@@ -35,9 +35,11 @@ router.get("/search", async (req, res) => {
 router.get("/info/:id", async (req, res) => {
     const { id: filmId } = req.params;
     const film = await getFilm(filmId);
+    const mainInformations = getMainInformations(film);
     const trailerKey = await getTrailerKey(filmId);
     const options = {
         film,
+        mainInformations,
         trailerKey,
         utils: {
             formatFilmDuration

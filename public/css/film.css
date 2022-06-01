@@ -24,3 +24,13 @@ header {
     align-items: center;
     flex-direction: column;
 }
+
+.overview-text {
+    text-indent: 45px;
+}
+
+.trailer-video {
+    width: 80%;
+    height: 350px;
+    max-width: 550px;
+}
