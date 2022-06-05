@@ -45,6 +45,7 @@ router.get("/info/:id", async (req, res) => {
             formatFilmDuration
         }
     };
+    
     res.render("film", options);
 });
 
