@@ -15,17 +15,17 @@ class MainInformation {
 
 const getMainInformations = (film) => {
     const informations = [
-        new MainInformation("Title", film.title),
-        new MainInformation("Genre", film.genres.map(g => g.name).join(", ")),
-        new MainInformation("Duration", film.runtime),
-        new MainInformation("Status", film.status),
-        new MainInformation("Release date", film.release_date),
-        new MainInformation("Vote average", film.vote_average),
-        new MainInformation("Vote count", film.vote_count),
-        new MainInformation("Popularity", film.popularity),
-        new MainInformation("Home page", film.homepage),
-        new MainInformation("Production countries", film.production_countries.map(p => p.name).join(", ")),
-        new MainInformation("Languages", film.spoken_languages.map(l => l.english_name).join(", ")),
+        new MainInformation("Title", film.title || "(unknown)"),
+        new MainInformation("Genre", film.genres ? film.genres.map(g => g.name).join(", ") : "(unknown)"),
+        new MainInformation("Duration", film.runtime ? `${film.runtime} minutes` : "(unknown)"),
+        new MainInformation("Status", film.status || "(unknown)"),
+        new MainInformation("Release date", film.release_date || "(unknown)"),
+        new MainInformation("Vote average", film.vote_average || "(unknown)"),
+        new MainInformation("Vote count", film.vote_count || "(unknown)"),
+        new MainInformation("Popularity", film.popularity || "(unknown)"),
+        new MainInformation("Home page", film.homepage || "(unknown)"),
+        new MainInformation("Production countries", film.production_countries ? film.production_countries.map(p => p.name).join(", ") : "(unknown)"),
+        new MainInformation("Languages", film.spoken_languages ? film.spoken_languages.map(l => l.english_name).join(", ") : "(unknown)"),
         new MainInformation("Budget", `$${film.budget}`),
         new MainInformation("Revenue", `$${film.revenue}`)
     ];
