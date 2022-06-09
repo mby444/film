@@ -59,12 +59,12 @@ const adultLabel = `<span class="badge bg-danger text-white">18+</span>`;
         <h3 class="h3 film text-center pt-5 pb-3">Watch</h3>
         <% if (film.isAvailable) { %>
             <div class="watch-container d-flex justify-content-center">
-                <a href="#" class="btn btn-warning p-4 pt-2 pb-2">Watch on G-Drive</a>
+                <a href="#" class="btn btn-danger p-4 pt-2 pb-2">Watch on G-Drive</a>
             </div>
         <% } else { %>
             <div class="watch-error-container container-fluid d-flex justify-content-center" style="flex-direction:column;">
                 <p class="text-center p-2">This film is not available yet, click the yellow button bellow to request the film</p>
-                <button class="req-btn btn btn-warning p-4 pt-2 pb-2">Request</button>
+                <button class="req-btn btn btn-warning p-4 pt-2 pb-2" style="max-width:500px;">Request</button>
             </div>
         <% } %>
         <h3 class="h3 text-center pt-5 pb-3">Overview</h3>

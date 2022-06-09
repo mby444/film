@@ -1,4 +1,6 @@
 import express from "express";
+import Film from "../database/model/film.js";
+import Request from "../database/model/request.js";
 import { searchFilms, getFilm, getTrailerKey, getMainInformations } from "../utils/film.js";
 import { formatFilmDuration } from "../utils/formatter.js";
 

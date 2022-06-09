@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+import "./database/connection.js";
 import express from "express";
 import bodyParser from "body-parser";
 import indexRoute from "./routes/index.js";
