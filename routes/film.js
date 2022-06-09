@@ -21,7 +21,6 @@ router.post("/req", (req, res) => {
     const request = new Request({ filmId, filmTitle, date: filmDate });
     request.save();
     res.json({ message: "ok" });
-    console.log("request saved");
 });
 
 export default router;
