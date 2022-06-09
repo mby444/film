@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const Film = mongoose.model("films", {
-    name: {
+    filmId: {
         type: String
     },
     url: {

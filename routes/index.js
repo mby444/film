@@ -38,9 +38,10 @@ router.get("/info/:id", async (req, res) => {
     const film = await getFilm(filmId);
     const mainInformations = getMainInformations(film);
     const trailerKey = await getTrailerKey(filmId);
-    const filmDB = await Film.findOne({ filmId });
+    const filmDB = await Film.findOne({ filmId }).exec();
 
     if (filmDB) {
+        console.log(filmDB)
         film.watchURL = filmDB.url;
     }
 
