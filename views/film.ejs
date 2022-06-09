@@ -57,9 +57,9 @@ const adultLabel = `<span class="badge bg-danger text-white">18+</span>`;
             </div>
         <% } %>
         <h3 class="h3 film text-center pt-5 pb-3">Watch</h3>
-        <% if (film.isAvailable) { %>
+        <% if (film.watchURL) { %>
             <div class="watch-container d-flex justify-content-center">
-                <a href="#" class="btn btn-danger p-4 pt-2 pb-2">Watch on G-Drive</a>
+                <a href="<%= film.watchURL %>" target="_blank" class="btn btn-danger p-4 pt-2 pb-2">Watch on G-Drive</a>
             </div>
         <% } else { %>
             <div class="watch-error-container container-fluid d-flex justify-content-center" style="flex-direction:column;">

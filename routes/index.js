@@ -1,6 +1,5 @@
 import express from "express";
 import Film from "../database/model/film.js";
-import Request from "../database/model/request.js";
 import { searchFilms, getFilm, getTrailerKey, getMainInformations } from "../utils/film.js";
 import { formatFilmDuration } from "../utils/formatter.js";
 
@@ -39,6 +38,12 @@ router.get("/info/:id", async (req, res) => {
     const film = await getFilm(filmId);
     const mainInformations = getMainInformations(film);
     const trailerKey = await getTrailerKey(filmId);
+    const filmDB = await Film.findOne({ filmId });
+
+    if (filmDB) {
+        film.watchURL = filmDB.url;
+    }
+
     const options = {
         film,
         mainInformations,
