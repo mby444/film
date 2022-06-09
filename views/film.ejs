@@ -23,7 +23,7 @@ const adultLabel = `<span class="badge bg-danger text-white">18+</span>`;
     <link rel="stylesheet" href="/css/film.css">
     <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
 </head>
-<body>
+<body onload="loadWindow('<%= film.id %>')">
     <header class="container-fluid d-flex justify-content-center align-items-center bg-dark pt-2 pb-2">
         <div <%= `style=background-image:url('https://image.tmdb.org/t/p/w500${film.backdrop_path}');` %> class="backdrop-path conteiner-md d-flex justify-content-center align-items-center flex-column rounded">
             <div class="title-container rounded p-3">
@@ -66,7 +66,7 @@ const adultLabel = `<span class="badge bg-danger text-white">18+</span>`;
         <% } else { %>
             <div class="watch-container container-fluid d-flex justify-content-center" style="flex-direction:column;">
                 <p class="text-center p-2">This film is not available yet, click the yellow button bellow to request the film</p>
-                <button class="req-btn btn btn-warning p-4 pt-2 pb-2" style="max-width:500px;" <%- `onclick="reqBtnEvent('${film.id}', '${film.title}', '${Date()}')"` %>>Request</button>
+                <button disabled class="req-btn btn btn-warning p-4 pt-2 pb-2" style="max-width:500px;" <%- `onclick="reqBtnEvent('${film.id}', '${film.title}', '${Date()}')"` %>>Request</button>
             </div>
         <% } %>
         <h3 class="h3 text-center pt-5 pb-3">Overview</h3>

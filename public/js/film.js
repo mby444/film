@@ -1,3 +1,5 @@
+let filmId = 0;
+
 const sendFilmRequest = async (filmId, filmTitle, filmDate) => {
     try {
         const payload = JSON.stringify({ filmId, filmTitle, filmDate });
@@ -55,19 +57,22 @@ const reqBtnEvent = async (filmId, filmTitle, filmDate) => {
         })();
         console.error(response.message);
     }
-    localStorage.setItem("requested", "1");
+    sessionStorage.setItem(`${filmId}`, "1");
     disableBtn(reqBtn, "Requested");
     changeClassName(reqBtn, "btn-warning", "btn-secondary");
 };
 
 const checkReqBtn = () => {
     const reqBtn = document.querySelector(".req-btn");
-    const requested = localStorage.getItem("requested");
+    if (!reqBtn) return;
+    reqBtn.removeAttribute("disabled");
+    const requested = parseInt(sessionStorage.getItem(`${filmId}`));
     if (!(reqBtn && requested)) return;
     disableBtn(reqBtn, "Requested");
     changeClassName(reqBtn, "btn-warning", "btn-secondary");
 };
 
-window.addEventListener("load", () => {
+const loadWindow = (_filmId="") => {
+    filmId = parseInt(_filmId);
     checkReqBtn();
-});
+};
