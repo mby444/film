@@ -1,4 +1,5 @@
 const formReq = document.querySelector(".form-req");
+const formQuest = document.querySelector(".form-quest");
 
 const sendUrl = async (url) => {
     const payload = JSON.stringify({ url });
@@ -14,13 +15,39 @@ const sendUrl = async (url) => {
     return response;
 };
 
+const sendQuestion = async (email, message) => {
+    const payload = JSON.stringify({ email, message });
+    const rawResponse = await fetch("/form/question", {
+        method: "POST",
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        },
+        body: payload
+    });
+};
+
 const submitUrlEvent = async () => {
     const urlInput = document.querySelector("#url-input");
     await sendUrl(urlInput.value);
     location.reload();
 };
 
+const submitQuestionEvent = async () => {
+    const [email, message] = [
+        document.querySelector("#email-input"),
+        document.querySelector("#message-input")
+    ];
+    await sendQuestion(email.value, message.value);
+    location.reload();
+};
+
 formReq.addEventListener("submit", (event) => {
     event.preventDefault();
     submitUrlEvent();
+});
+
+formQuest.addEventListener("submit", (event) => {
+    event.preventDefault();
+    submitQuestionEvent();
 });
