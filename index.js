@@ -5,6 +5,7 @@ import bodyParser from "body-parser";
 import indexRoute from "./routes/index.js";
 import notFound from "./middleware/not-found.js";
 import filmRoute from "./routes/film.js";
+import formRoute from "./routes/form.js";
 
 dotenv.config();
 
@@ -19,6 +20,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use("/", indexRoute);
 app.use("/film", filmRoute);
+app.use("/form", formRoute);
+
 app.use("*", notFound);
 
 app.listen(port, () => {

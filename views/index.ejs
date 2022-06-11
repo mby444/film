@@ -64,10 +64,10 @@
     <footer class="container-fluid bg-dark p-2 pt-4 pb-4 mt-5">
         <div class="form-req-container container-md d-flex justify-content-center align-items-center flex-column pt-2 pb-4">
             <h5 class="h5 text-center text-white pt-2 pb-2">Share Film Here!</h5>
-            <form action="/request" method="post" class="form-req container-sm d-flex justify-content-center align-items-center flex-column">
+            <form class="form-req container-sm d-flex justify-content-center align-items-center flex-column">
                 <input type="url" name="url" id="url-input" aria-describedby="url-help" class="form-control" placeholder="Your Google Drive URL" required>
                 <div id="url-help" class="form-text text-white" style="font-size:10pt;">Send me your url and make it available public</div>
-                <input type="submit" value="Submit" class="btn btn-danger text-white mt-3">
+                <input type="submit" value="Submit" id="btn-url" class="btn btn-danger text-white mt-3">
             </form>
         </div>
         <div class="form-quest-container container-md d-flex justify-content-center align-items-center flex-column pt-4 pb-2">
