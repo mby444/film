@@ -4,8 +4,8 @@ import Sharing from "../database/model/sharing.js";
 const router = express.Router();
 
 router.post("/sharing", async (req, res) => {
-    const { url="" } = req.body;
-    const sharing = new Sharing({ url });
+    const { url="", date=Date() } = req.body;
+    const sharing = new Sharing({ url, date });
     sharing.save();
     res.json({ message: "ok" });
 });

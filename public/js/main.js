@@ -16,11 +16,11 @@ const sendUrl = async (url) => {
 
 const submitUrlEvent = async () => {
     const urlInput = document.querySelector("#url-input");
-    const btn = document.querySelector("#btn-url");
     await sendUrl(urlInput.value);
+    location.reload();
 };
 
 formReq.addEventListener("submit", (event) => {
     event.preventDefault();
     submitUrlEvent();
-})
+});
