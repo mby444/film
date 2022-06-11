@@ -16,6 +16,12 @@ router.get("/search", async (req, res) => {
     res.json(films);
 });
 
+router.get("/req", async (req, res) => {
+    const { id: filmId=0 } = req.query;
+    const requests = await Request.find({ filmId });
+    res.json({ count: requests.length });
+});
+
 router.post("/req", (req, res) => {
     const { filmId, filmTitle, filmDate } = req.body;
     const request = new Request({ filmId, filmTitle, date: filmDate });

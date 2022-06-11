@@ -57,17 +57,24 @@ const reqBtnEvent = async (filmId, filmTitle, filmDate) => {
         })();
         console.error(response.message);
     }
-    sessionStorage.setItem(`${filmId}`, "1");
+    localStorage.setItem(`${filmId}`, "1");
     disableBtn(reqBtn, "Requested");
     changeClassName(reqBtn, "btn-warning", "btn-secondary");
 };
 
-const checkReqBtn = () => {
+const hasRequestData = async (filmId) => {
+    const rawResponse = await fetch(`/film/req?id=${filmId}`);
+    const response = await rawResponse.json();
+    return response.count > 0;
+};
+
+const checkReqBtn = async () => {
     const reqBtn = document.querySelector(".req-btn");
     if (!reqBtn) return;
     reqBtn.removeAttribute("disabled");
-    const requested = parseInt(sessionStorage.getItem(`${filmId}`));
-    if (!(reqBtn && requested)) return;
+    const requested = parseInt(localStorage.getItem(`${filmId}`));
+    const hasRequested = await hasRequestData(filmId);
+    if (!(hasRequested && requested)) return;
     disableBtn(reqBtn, "Requested");
     changeClassName(reqBtn, "btn-warning", "btn-secondary");
 };
