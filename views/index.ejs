@@ -59,14 +59,16 @@
                 <input type="text" value="Page <%= page %> of <%= pageTotal %>" class="text-center" disabled>
                 <a href="/search?q=<%= query %>&page=<%= +page + 1 > +pageTotal ? +page : +page + 1 %>" class="btn btn-dark text-white">&#10095;</a>
             </div>
-            <div class="jump-container container d-flex justify-content-center pt-4 pb-2">
-                <form class="jump-form container d-flex justify-content-center align-items-center pt-4">
-                    <input type="hidden" name="q" value="<%= query %>">
-                    <span class="p-2 pt-0 pb-0">Jump to page: </span>
-                    <input type="number" name="page" id="jump-input" class="form-control" style="width:100px;">
-                    <input type="submit" value="Go" class="jump-btn btn btn-danger m-2 mt-1 mb-1">
-                </form>
-            </div>
+            <% if (pageTotal > "1") { %>
+                <div class="jump-container container d-flex justify-content-center pt-4 pb-2">
+                    <form class="jump-form container d-flex justify-content-center align-items-center pt-4">
+                        <input type="hidden" name="q" value="<%= query %>">
+                        <span class="p-2 pt-0 pb-0">Jump to page: </span>
+                        <input type="number" name="page" id="jump-input" class="form-control" required style="width:100px;">
+                        <input type="submit" value="Go" class="jump-btn btn btn-danger m-2 mt-1 mb-1">
+                    </form>
+                </div>
+            <% } %>
         <% } %>
     </div>
     <footer class="container-fluid bg-dark p-2 pt-4 pb-4 mt-5">
