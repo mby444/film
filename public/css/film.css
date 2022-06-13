@@ -44,3 +44,11 @@ header {
 .main-information-container {
     word-break: break-all;
 }
+
+@media screen and (max-width: 786px) {
+    .trailer-video {
+        width: 100%;
+        height: 300px;
+        max-width: 550px;
+    }
+}
