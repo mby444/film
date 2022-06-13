@@ -40,3 +40,7 @@ header {
     left: 50%;
     transform: translate(-50%, 0);
 }
+
+.main-information-container {
+    word-break: break-all;
+}
