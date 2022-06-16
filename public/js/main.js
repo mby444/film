@@ -1,19 +1,19 @@
-const formReq = document.querySelector(".form-req");
+// const formReq = document.querySelector(".form-req");
 const formQuest = document.querySelector(".form-quest");
 
-const sendUrl = async (url) => {
-    const payload = JSON.stringify({ url });
-    const rawResponse = await fetch("/form/sharing", {
-        method: "POST",
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-        },
-        body: payload
-    });
-    const response = await rawResponse.json();
-    return response;
-};
+// const sendUrl = async (url) => {
+//     const payload = JSON.stringify({ url });
+//     const rawResponse = await fetch("/form/sharing", {
+//         method: "POST",
+//         headers: {
+//             "Accept": "application/json",
+//             "Content-Type": "application/json"
+//         },
+//         body: payload
+//     });
+//     const response = await rawResponse.json();
+//     return response;
+// };
 
 const sendQuestion = async (email, message) => {
     const payload = JSON.stringify({ email, message });
@@ -27,11 +27,11 @@ const sendQuestion = async (email, message) => {
     });
 };
 
-const submitUrlEvent = async () => {
-    const urlInput = document.querySelector("#url-input");
-    await sendUrl(urlInput.value);
-    location.reload();
-};
+// const submitUrlEvent = async () => {
+//     const urlInput = document.querySelector("#url-input");
+//     await sendUrl(urlInput.value);
+//     location.reload();
+// };
 
 const submitQuestionEvent = async () => {
     const [email, message] = [
@@ -42,10 +42,10 @@ const submitQuestionEvent = async () => {
     location.reload();
 };
 
-formReq.addEventListener("submit", (event) => {
-    event.preventDefault();
-    submitUrlEvent();
-});
+// formReq.addEventListener("submit", (event) => {
+//     event.preventDefault();
+//     submitUrlEvent();
+// });
 
 formQuest.addEventListener("submit", (event) => {
     event.preventDefault();
