@@ -2,6 +2,7 @@ import express from "express";
 import fs from "fs/promises";
 import path from "path";
 import User from "../database/model/user.js";
+import { collectionObj } from "../utils/collection.js";
 import { auth } from "../middleware/auth.js";
 import { __dirname } from "../config/path.js";
 
@@ -16,6 +17,17 @@ router.get("/", auth, async (req, res) => {
     options.collections = collections;
 
     res.render("admin", options);
+});
+
+router.get("/collection", auth, async (req, res) => {
+    const { name: collName="" } = req.query;
+    const options = {
+        data: [],
+        collName
+    };
+    options.data = await collectionObj[collName]();
+
+    res.render("collection", options);
 });
 
 router.post("/logged", async (req, res) => {

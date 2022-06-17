@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database</title>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <% if (data.length > 0) { %>
+        <div class="btn-container container p-2 pt-4 pb-4">
+            <a href="/admin" class="btn btn-warning text-white">Home</a>
+            <button class="clear-btn btn btn-danger text-white">Delete all</button>
+        </div>
+        <div class="table-container container-fluid" style="overflow-x:auto;">
+            <table class="table table-striped container-fluid" style="min-width:600px;">
+                <thead>
+                    <tr>
+                        <% for (let key in data[0]) { %>
+                            <th><%= key %></th>
+                        <% } %>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% data.forEach((d) => { %>
+                        <tr>
+                            <% for (let key in d) { %>
+                                <td><%= d[key] %></td>
+                            <% } %>
+                            <td>
+                                <% if (collName !== "requests") { %>
+                                    <button class="approve-btn btn btn-success text-white">Approve</button>
+                                <% } %>
+                                <button class="delete-btn btn btn-danger text-white">Delete</button>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    <% } else { %>
+        <div class="alert alert-secondary text-center">
+            <p>No data</p>
+        </div>
+    <% } %> 
+</body>
+</html>
