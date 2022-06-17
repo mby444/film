@@ -24,6 +24,24 @@ clearBtn?.addEventListener("click", () => {
     clearData();
 });
 
+const deleteData = async (_id) => {
+    if (!confirm("Delete?")) return;
+    try {
+        const rawResponse = await fetch(`/admin/collection?name=${collection}&id=${_id}`, {
+            method: "DELETE",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            }
+        });
+        const response = await rawResponse.json();
+        console.log(response);
+        location.reload();
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 const loadPage = (collName) => {
     collection = collName;
 };

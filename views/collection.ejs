@@ -34,10 +34,10 @@
                                 <td><%= d[key] %></td>
                             <% } %>
                             <td>
-                                <% if (collName !== "requests") { %>
+                                <% if (collName === "requests") { %>
                                     <button class="approve-btn btn btn-success text-white">Approve</button>
                                 <% } %>
-                                <button class="delete-btn btn btn-danger text-white">Delete</button>
+                                <button class="delete-btn btn btn-danger text-white" <%= `onclick=deleteData('${d._id}')` %>>Delete</button>
                             </td>
                         </tr>
                     <% }) %>
