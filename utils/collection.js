@@ -34,31 +34,37 @@ const filterData = (data=[], fields=[]) => {
 const collectionObj = {
     films: async () => {
         const films = await Film.find({}).exec();
-        const fields = ["filmId", "url"];
+        const fields = ["_id", "filmId", "url"];
         const filtered = filterData(films, fields);
         return filtered;
     },
     questions: async () => {
         const questions = await Question.find({}).exec();
-        const fields = ["email", "message", "date"];
+        const fields = ["_id", "email", "message", "date"];
         const filtered = filterData(questions, fields);
         return filtered;
     },
     requests: async () => {
         const requests = await Request.find({}).exec();
-        const fields = ["filmId", "filmTitle", "date"];
+        const fields = ["_id", "filmId", "filmTitle", "date"];
         const filtered = filterData(requests, fields);
         return filtered;
     },
     users: async () => {
         const users = await User.find({}).exec();
-        const fields = ["email", "password"];
+        const fields = ["_id", "email", "password"];
         const filtered = filterData(users, fields);
         return filtered;
     },
     "": async () => ""
 };
 
+const collectionName = {
+    films: () => Film,
+    questions: () => Question,
+    requests: () => Request,
+    users: () => User,
+    "": () => ""
+}
 
-
-export { collectionObj };
+export { collectionObj, collectionName };
