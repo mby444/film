@@ -9,6 +9,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <!-- JavaScript Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <!-- Sweetalert 2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.17/dist/sweetalert2.all.min.js" integrity="sha256-RhRrbx+dLJ7yhikmlbEyQjEaFMSutv6AzLv3m6mQ6PQ=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
 </head>
@@ -25,6 +27,9 @@
             <input type="submit" value="Search" class="search-btn btn btn-dark">
         </form>
         <% if (query && !filmError) { %>
+            <div class="searchfor-container container d-flex justify-content-center align-items-center text-center text-secondary pt-4">
+                <h6 class="h6"><i>Search for <b>&quot;<%= query %>&quot;</b></i></h6>
+            </div>
             <div class="pointer container-sm d-flex justify-content-center mt-5">
                 <a href="/search?q=<%= query %>&page=<%= +page - 1 <= 0 ? 1 : +page - 1 %>" class="btn btn-dark text-white">&#10094;</a>
                 <input type="text" value="Page <%= page %> of <%= pageTotal %>" class="text-center" disabled>

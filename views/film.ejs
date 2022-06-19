@@ -35,8 +35,8 @@ const adultLabel = `<span class="badge bg-danger text-white">18+</span>`;
     </header>
     <div class="main-container container-fluid pt-4 pb-4">
         <div class="summary-container container-md d-flex justify-content-center align-items-centers p-2 pt-4">
-            <div class="card m-2" style="width:25vw; max-width:250px; min-width: 135px;">
-                <img src="https://image.tmdb.org/t/p/w500<%= film.poster_path %>" alt="Poster">
+            <div class="card m-2" style="width:25vw; max-width:250px; min-width: 135px;" style="border:none;">
+                <img src="https://image.tmdb.org/t/p/w500<%= film.poster_path %>" alt="Poster" style="border:none;">
             </div>
             <div class="info m-4 mt-2 mb-2">
                 <h2 translate="no" class="h2"><%= filmTitle %> <%- film.adult ? adultLabel : "" %></h2>

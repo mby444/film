@@ -33,13 +33,22 @@ const sendQuestion = async (email, message) => {
 //     location.reload();
 // };
 
+const clearForm = () => {
+    const emailInput = document.querySelector("#email-input");
+    const messageInput = document.querySelector("#message-input");
+
+    emailInput.value = "";
+    messageInput.value = "";
+};
+
 const submitQuestionEvent = async () => {
     const [email, message] = [
         document.querySelector("#email-input"),
         document.querySelector("#message-input")
     ];
     await sendQuestion(email.value, message.value);
-    location.reload();
+    await Swal.fire({ title: "Message sent!", icon: "success" });
+    clearForm();
 };
 
 // formReq.addEventListener("submit", (event) => {

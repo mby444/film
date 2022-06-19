@@ -25,7 +25,8 @@ router.get("/collection", auth, async (req, res) => {
         data: [],
         collName
     };
-    options.data = await collectionObj[collName]();
+    const collData = collectionObj[collName];
+    typeof collData === "function" ? options.data = await collData() : 0;
 
     res.render("collection", options);
 });
