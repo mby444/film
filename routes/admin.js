@@ -32,6 +32,23 @@ router.get("/collection", auth, async (req, res) => {
     res.render("collection", options);
 });
 
+router.get("/user/new", auth, (req, res) => {
+    const options = {
+        error: null
+    }
+    res.render("new-user", options);
+});
+
+router.post("/user/new", async (req, res) => {
+    const { email, password } = req.body;
+    const oldUser = await User.findOne({ email });
+    if (oldUser) return res.render("new-user", { error: "User already exists!" });
+    const passwordHash = bcrypt.hashSync(password);
+    const newUser = new User({ email, password: passwordHash });
+    await newUser.save();
+    res.redirect("/admin/collection?name=users");
+});
+
 router.post("/logged", async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });

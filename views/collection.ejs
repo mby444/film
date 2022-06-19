@@ -16,6 +16,9 @@
         <div class="btn-container container p-2 pt-4 pb-4">
             <a href="/admin" class="btn btn-warning text-white">Home</a>
             <button class="clear-btn btn btn-danger text-white">Delete all</button>
+            <% if (collName === "users") { %>
+                <a href="/admin/user/new" class="clear-btn btn btn-success text-white">Add</a>
+            <% } %>
         </div>
         <div class="table-container container-fluid" style="overflow-x:auto;">
             <table class="table table-striped container-fluid" style="min-width:600px;">
