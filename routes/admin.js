@@ -3,6 +3,8 @@ import fs from "fs/promises";
 import bcrypt from "bcryptjs";
 import path from "path";
 import User from "../database/model/user.js";
+import Film from "../database/model/film.js";
+import Request from "../database/model/request.js";
 import { collectionObj, collectionName } from "../utils/collection.js";
 import { auth } from "../middleware/auth.js";
 import { __dirname } from "../config/path.js";
@@ -64,6 +66,16 @@ router.post("/logged", async (req, res) => {
     res.cookie("email", email, { maxAge: 1000 * 60 * 60, httpOnly: true });
     res.cookie("password", password, { maxAge: 1000 * 60 * 60, httpOnly: true });
     res.render("logged");
+});
+
+router.post("/film", async (req, res) => {
+    const { filmId, url } = req.body;
+    const oldFilm = await Film.findOne({ filmId });
+    if (oldFilm) return res.json({ error: true, message: "Film already exists!" });
+    const newFilm = new Film({ filmId, url });
+    await newFilm.save();
+    await Request.deleteMany({ filmId });
+    res.json({ message: "ok" });
 });
 
 router.delete("/collection", async (req, res) => {

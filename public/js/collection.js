@@ -42,6 +42,27 @@ const deleteData = async (_id) => {
     }
 }
 
+const approveData = async (filmId) => {
+    const filmUrl = prompt("G-Drive URL");
+    if (!filmUrl) return;
+    try {
+        const payload = JSON.stringify({ filmId, url: filmUrl });
+        const rawResponse = await fetch(`/admin/film`, {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: payload
+        });
+        const response = await rawResponse.json();
+        console.log(response);
+        location.reload();
+    } catch (err) {
+        console.log(err);
+    }
+};
+
 const loadPage = (collName) => {
     collection = collName;
 };
