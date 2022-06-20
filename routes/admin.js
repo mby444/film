@@ -99,4 +99,10 @@ router.delete("/collection", async (req, res) => {
     res.json(options);
 });
 
+router.delete("/logout", (req, res) => {
+    res.cookie("email", "", { maxAge: 0 });
+    res.cookie("password", "", { maxAge: 0 });
+    res.json({ message: "ok" });
+});
+
 export default router;

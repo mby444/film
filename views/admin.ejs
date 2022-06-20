@@ -25,6 +25,10 @@
                 <a href="/admin/collection?name=<%= collection %>" class="btn btn-dark p-4 pt-2 pb-2 mt-3 mb-3" style="width:90%; max-width:500px;"><%= collection %></a>
             <% }) %>
         </div>
+        <div class="logout-container container d-flex justify-content-center pt-5 pb-4">
+            <button class="logout-btn btn btn-danger text-white p-3 pt-2 pb-2" onclick="logout()">Log Out</button>
+        </div>
     </div>
+    <script src="/js/admin.js"></script>
 </body>
 </html>
