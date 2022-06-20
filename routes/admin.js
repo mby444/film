@@ -69,10 +69,10 @@ router.post("/logged", async (req, res) => {
 });
 
 router.post("/film", async (req, res) => {
-    const { filmId, url } = req.body;
+    const { filmId, filmTitle, date, url } = req.body;
     const oldFilm = await Film.findOne({ filmId });
     if (oldFilm) return res.json({ error: true, message: "Film already exists!" });
-    const newFilm = new Film({ filmId, url });
+    const newFilm = new Film({ filmId, filmTitle, date, url });
     await newFilm.save();
     await Request.deleteMany({ filmId });
     res.json({ message: "ok" });

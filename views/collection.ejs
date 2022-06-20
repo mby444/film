@@ -38,9 +38,9 @@
                             <% } %>
                             <td>
                                 <% if (collName === "requests") { %>
-                                    <button class="approve-btn btn btn-success text-white" <%= `onclick=approveData('${d.filmId}')` %>>Approve</button>
+                                    <button class="approve-btn btn btn-success text-white" <%- `onclick="approveData('${d.filmId}', '${d.filmTitle}')"` %>>Approve</button>
                                 <% } %>
-                                <button class="delete-btn btn btn-danger text-white" <%= `onclick=deleteData('${d._id}')` %>>Delete</button>
+                                <button class="delete-btn btn btn-danger text-white" <%- `onclick="deleteData('${d._id}')"` %>>Delete</button>
                             </td>
                         </tr>
                     <% }) %>
