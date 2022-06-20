@@ -26,8 +26,8 @@ const getMainInformations = (film) => {
         new MainInformation("Home page", film.homepage || "(unknown)"),
         new MainInformation("Production countries", film.production_countries ? film.production_countries.map(p => p.name).join(", ") : "(unknown)"),
         new MainInformation("Languages", film.spoken_languages ? film.spoken_languages.map(l => l.english_name).join(", ") : "(unknown)"),
-        new MainInformation("Budget", `$${film.budget}`),
-        new MainInformation("Revenue", `$${film.revenue}`)
+        new MainInformation("Budget", film.budget ? `$${film.budget}` : "(unknown)"),
+        new MainInformation("Revenue", film.revenue ? `$${film.revenue}` : "(unknown)")
     ];
     return informations;
 };
