@@ -1,6 +1,7 @@
 <% 
 const originalTitle = film.title.replace("'", "`");
-const filmTitle = film.title + ` (${film.release_date.split("-")[0]})`;
+const releaseYear = film.release_date.split("-")[0];
+const filmTitle = film.title + (releaseYear ? ` (${releaseYear})` : "");
 const starIcon = `<svg style="position:relative; transform:translate(0,-22%);" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
                             <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
                           </svg>`;
@@ -35,8 +36,8 @@ const adultLabel = `<span class="badge bg-danger text-white">18+</span>`;
     </header>
     <div class="main-container container-fluid pt-4 pb-4">
         <div class="summary-container container-md d-flex justify-content-center align-items-centers p-2 pt-4">
-            <div class="card m-2" style="width:25vw; max-width:250px; min-width: 135px;" style="border:none;">
-                <img src="https://image.tmdb.org/t/p/w500<%= film.poster_path %>" alt="Poster" style="border:none;">
+            <div class="card m-2" style="width:25vw; max-width:250px; min-width:135px; border:none;">
+                <img src="https://image.tmdb.org/t/p/w500<%= film.poster_path %>" alt="Poster">
             </div>
             <div class="info m-4 mt-2 mb-2">
                 <h2 translate="no" class="h2"><%= filmTitle %> <%- film.adult ? adultLabel : "" %></h2>
