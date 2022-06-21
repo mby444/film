@@ -42,11 +42,11 @@ const deleteData = async (_id) => {
     }
 }
 
-const approveData = async (filmId, filmTitle) => {
+const approveData = async (filmId, filmTitle, date) => {
     const filmUrl = prompt("G-Drive URL");
     if (!filmUrl) return;
     try {
-        const payload = JSON.stringify({ filmId, filmTitle, date: Date(), url: filmUrl });
+        const payload = JSON.stringify({ filmId, filmTitle, date, url: filmUrl });
         const rawResponse = await fetch(`/admin/film`, {
             method: "POST",
             headers: {
