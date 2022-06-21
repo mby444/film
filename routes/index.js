@@ -36,6 +36,11 @@ router.get("/search", async (req, res) => {
 router.get("/info/:id", async (req, res) => {
     const { id: filmId } = req.params;
     const film = await getFilm(filmId);
+
+    if (film.error) {
+        return res.status(400).send(film.message);
+    }
+
     const mainInformations = getMainInformations(film);
     const trailerKey = await getTrailerKey(filmId);
     const filmDB = await Film.findOne({ filmId }).exec();
