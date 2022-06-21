@@ -47,7 +47,7 @@ const submitQuestionEvent = async () => {
         document.querySelector("#message-input")
     ];
     await sendQuestion(email.value, message.value);
-    await Swal.fire({ title: "Message sent!", icon: "success" });
+    await Swal.fire({ title: "Message sent!", text: `Thank you!\nI will reply through Email if needed`, icon: "success" });
     clearForm();
 };
 

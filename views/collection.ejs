@@ -27,7 +27,7 @@
                         <% for (let key in data[0]) { %>
                             <th><%= key %></th>
                         <% } %>
-                        <th>Action</th>
+                        <th style="min-width:150px;">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -39,6 +39,8 @@
                             <td>
                                 <% if (collName === "requests") { %>
                                     <button class="approve-btn btn btn-success text-white" <%- `onclick="approveData('${d.filmId}', '${d.filmTitle}', '${d.date}')"` %>>Approve</button>
+                                <% } else if (collName === "films") { %>
+                                    <a href="/admin/film/edit?id=<%= d.filmId %>&url=<%= d.url %>&note=<%= d.note %>" class="edit-btn btn btn-warning text-white">Edit</a>
                                 <% } %>
                                 <button class="delete-btn btn btn-danger text-white" <%- `onclick="deleteData('${d._id}')"` %>>Delete</button>
                             </td>

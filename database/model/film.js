@@ -12,6 +12,9 @@ const Film = mongoose.model("films", {
     },
     url: {
         type: String
+    },
+    note: {
+        type: String
     }
 });
 

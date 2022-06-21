@@ -47,6 +47,7 @@ router.get("/info/:id", async (req, res) => {
 
     if (filmDB) {
         film.watchURL = filmDB.url;
+        film.note = filmDB.note;
     }
 
     const options = {

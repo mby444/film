@@ -34,7 +34,7 @@ const filterData = (data=[], fields=[]) => {
 const collectionObj = {
     films: async () => {
         const films = await Film.find({}).exec();
-        const fields = ["_id", "filmId", "filmTitle", "date", "url"];
+        const fields = ["_id", "filmId", "filmTitle", "date", "url", "note"];
         const filtered = filterData(films, fields);
         return filtered;
     },

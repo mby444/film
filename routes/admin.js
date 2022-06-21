@@ -41,6 +41,17 @@ router.get("/user/new", auth, (req, res) => {
     res.render("new-user", options);
 });
 
+router.get("/film/edit", auth, (req, res) => {
+    const { id, url, note } = req.query;
+    const options = {
+        id,
+        url,
+        note,
+        error: null
+    }
+    res.render("edit-film", options);
+});
+
 router.post("/user/new", async (req, res) => {
     const { email, password } = req.body;
     const oldUser = await User.findOne({ email });
@@ -76,6 +87,14 @@ router.post("/film", async (req, res) => {
     await newFilm.save();
     await Request.deleteMany({ filmId });
     res.json({ message: "ok" });
+});
+
+router.post("/film/edit", async (req, res) => {
+    const { id, url, note } = req.body;
+    await Film.updateOne({ filmId: id }, {
+        $set: { url, note }
+    });
+    res.redirect("/admin/collection?name=films");
 });
 
 router.delete("/collection", async (req, res) => {
