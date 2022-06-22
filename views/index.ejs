@@ -26,7 +26,7 @@
             <input type="text" name="q" id="q-input" value="<%= filmError ? query : "" %>" placeholder="Search film..." required class="form-control" style="max-width:500px;">
             <input type="submit" value="Search" class="search-btn btn btn-dark">
         </form>
-        <% if (query && !filmError) { %>
+        <% if (query) { %>
             <div class="searchfor-container container d-flex justify-content-center align-items-center text-center text-secondary pt-4">
                 <h6 class="h6"><i>Search for <b>&quot;<%= query %>&quot;</b></i></h6>
             </div>
@@ -34,6 +34,12 @@
                 <a href="/search?q=<%= query %>&page=<%= +page - 1 <= 0 ? 1 : +page - 1 %>" class="btn btn-dark text-white">&#10094;</a>
                 <input type="text" value="Page <%= page %> of <%= pageTotal %>" class="text-center" disabled>
                 <a href="/search?q=<%= query %>&page=<%= +page + 1 > +pageTotal ? +page : +page + 1 %>" class="btn btn-dark text-white">&#10095;</a>
+            </div>
+        <% } else if (!query) { %>
+            <div class="pointer container-sm d-flex justify-content-center mt-5">
+                <a href="/?page=<%= +page - 1 <= 0 ? 1 : +page - 1 %>" class="btn btn-dark text-white">&#10094;</a>
+                <input type="text" value="Page <%= page %> of <%= pageTotal %>" class="text-center" disabled>
+                <a href="/?page=<%= +page + 1 > +pageTotal ? +page : +page + 1 %>" class="btn btn-dark text-white">&#10095;</a>
             </div>
         <% } %>
         <% if (filmError) { %>
@@ -58,7 +64,7 @@
                 <% }) %>
             <% } %>
         </div>
-        <% if (query && !filmError) { %>
+        <% if (query) { %>
             <div class="pointer container-sm d-flex justify-content-center mt-2">
                 <a href="/search?q=<%= query %>&page=<%= +page - 1 <= 0 ? 1 : +page - 1 %>" class="btn btn-dark text-white">&#10094;</a>
                 <input type="text" value="Page <%= page %> of <%= pageTotal %>" class="text-center" disabled>
@@ -74,17 +80,25 @@
                     </form>
                 </div>
             <% } %>
+        <% } else if (!query) { %>
+            <div class="pointer container-sm d-flex justify-content-center mt-5">
+                <a href="/?page=<%= +page - 1 <= 0 ? 1 : +page - 1 %>" class="btn btn-dark text-white">&#10094;</a>
+                <input type="text" value="Page <%= page %> of <%= pageTotal %>" class="text-center" disabled>
+                <a href="/?page=<%= +page + 1 > +pageTotal ? +page : +page + 1 %>" class="btn btn-dark text-white">&#10095;</a>
+            </div>
+            <% if (pageTotal > "1") { %>
+                <div class="jump-container container d-flex justify-content-center pt-4 pb-2">
+                    <form class="jump-form container d-flex justify-content-center align-items-center pt-4">
+                        <input type="hidden" name="q" value="<%= query %>">
+                        <span class="p-2 pt-0 pb-0">Jump to page: </span>
+                        <input type="number" name="page" id="jump-input" class="form-control" required style="width:100px;">
+                        <input type="submit" value="Go" class="jump-btn btn btn-danger m-2 mt-1 mb-1">
+                    </form>
+                </div>
+            <% } %>
         <% } %>
     </div>
     <footer class="container-fluid bg-dark p-2 pt-4 pb-4 mt-5">
-        <!-- <div class="form-req-container container-md d-flex justify-content-center align-items-center flex-column pt-2 pb-4">
-            <h5 class="h5 text-center text-white pt-2 pb-2">Share Film Here!</h5>
-            <form class="form-req container-sm d-flex justify-content-center align-items-center flex-column">
-                <input type="url" name="url" id="url-input" aria-describedby="url-help" class="form-control" placeholder="Your Google Drive URL" required>
-                <div id="url-help" class="form-text text-white" style="font-size:10pt;">Send me your url and make it available public</div>
-                <input type="submit" value="Submit" id="btn-url" class="btn btn-danger text-white mt-3">
-            </form>
-        </div> -->
         <div class="form-quest-container container-md d-flex justify-content-center align-items-center flex-column pt-4 pb-2">
             <h5 class="h5 text-center text-white pt-2 pb-2">Any Question or Feedback&quest;</h5>
             <form class="form-quest container-sm d-flex justify-content-center align-items-center flex-column">

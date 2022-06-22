@@ -75,6 +75,27 @@ const searchFilms = async (filmName="", page=1) => {
     }
 };
 
+const getTopFilms = async (page) => {
+    try {
+        const films = await fetch(`https://api.themoviedb.org/3/movie/top_rated?api_key=${process.env.API_KEY_FILM}&page=${page}`);
+        const data = await films.json();
+        if (!data.results) throw { name: "NotFoundError" };
+        data.results = data.results.filter((result) => result.vote_average && result.poster_path);
+        if (data.results.length === 0) throw { name: "NotFoundError" };
+        return data;
+    } catch (err) {
+        const errObj = {
+            error: true,
+            message: "Something went wrong"
+        };
+        err.name === "OutOfRange" ? errObj.message = "Page not found"
+        : err.name === "NotFoundError" ? errObj.message = `Not found` 
+        : err.name === "UndefinedError" ? errObj.message = "Something went wrong"
+        : 0;
+        return errObj;
+    }
+};
+
 const getOfficialTrailer = (trailers=[]) => {
     let output = trailers[0];
     trailers.forEach((trailer, i) => {
@@ -97,6 +118,7 @@ const getTrailerKey = async (filmId) => {
 export {
     searchFilms,
     getFilm,
+    getTopFilms,
     getTrailerKey,
     getMainInformations
 };
