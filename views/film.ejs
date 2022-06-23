@@ -60,7 +60,19 @@ const adultLabel = `<span class="badge bg-danger text-white">18+</span>`;
                 <iframe src="https://youtube.com/embed/<%= trailerKey %>" frameborder="0" allowfullscreen class="trailer-video"></iframe>
             </div>
         <% } %>
-        <h3 class="h3 film text-center pt-5 pb-3">Watch</h3>
+        <h3 class="h3 film text-center pt-4 pb-3">Watch</h3>
+        <div class="ad-container container d-flex justify-content-center align-items-center pb-2">
+            <script type="text/javascript">
+                atOptions = {
+                    'key' : 'f038207cd64a1282d2e5b936faffee35',
+                    'format' : 'iframe',
+                    'height' : 60,
+                    'width' : 468,
+                    'params' : {}
+                };
+                document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.topdisplayformat.com/f038207cd64a1282d2e5b936faffee35/invoke.js"></scr' + 'ipt>');
+            </script>
+        </div>
         <% if (film.watchURL) { %>
             <div class="watch-container d-flex justify-content-center align-items-center flex-column">
                 <a href="<%= film.watchURL %>" target="_blank" class="btn btn-danger p-4 pt-2 pb-2">Watch on G-Drive</a>
@@ -88,6 +100,18 @@ const adultLabel = `<span class="badge bg-danger text-white">18+</span>`;
                     </tr>
                 <% }) %>
             </table>
+        </div>
+        <div class="ad-container container d-flex justify-content-center align-items-center pt-5 pb-4">
+            <script type="text/javascript">
+                atOptions = {
+                    'key' : 'f038207cd64a1282d2e5b936faffee35',
+                    'format' : 'iframe',
+                    'height' : 60,
+                    'width' : 468,
+                    'params' : {}
+                };
+                document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.topdisplayformat.com/f038207cd64a1282d2e5b936faffee35/invoke.js"></scr' + 'ipt>');
+            </script>
         </div>
     </div>
     <footer class="container-fluid bg-dark p-2 pt-4 pb-4 mt-5">
