@@ -8,6 +8,7 @@
 // };
 
 const formatFilmDuration = (minutes=0) => {
+    if (!minutes) return "";
     let hh = Math.floor(minutes / 60);
     let mm = minutes % 60;
     return `${hh}h ${mm}m`;
