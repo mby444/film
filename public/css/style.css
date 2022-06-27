@@ -2,6 +2,10 @@ body {
     min-height: 100vh;
 }
 
+.live-suggestion-container > .row {
+    border-bottom: 0.2px solid #aaa;
+}
+
 .form-quest, .form-req {
     max-width: 450px;
 }
