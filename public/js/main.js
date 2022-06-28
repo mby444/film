@@ -3,6 +3,8 @@ const formQuest = document.querySelector(".form-quest");
 const queryInput = document.querySelector("#q-input");
 const suggestionContainer = document.querySelector(".live-suggestion-container");
 
+let suggestionTimeout = null;
+
 // const sendUrl = async (url) => {
 //     const payload = JSON.stringify({ url });
 //     const rawResponse = await fetch("/form/sharing", {
@@ -97,6 +99,11 @@ const displaySuggestions = (suggestions=[]) => {
     suggestionContainer.innerHTML = elements.join("");
 };
 
+const genSuggestions = async (event) => {
+    const suggestions = await getSuggestions(event.target.value);
+    displaySuggestions(suggestions);
+};
+
 // formReq.addEventListener("submit", (event) => {
 //     event.preventDefault();
 //     submitUrlEvent();
@@ -107,9 +114,11 @@ formQuest.addEventListener("submit", (event) => {
     submitQuestionEvent();
 });
 
-queryInput.addEventListener("input", async (event) => {
-    const suggestions = await getSuggestions(event.target.value);
-    displaySuggestions(suggestions);
+queryInput.addEventListener("input", (event) => {
+    if (!event.target.value) return displaySuggestions([]);
+    suggestionTimeout = setTimeout(() => {
+        genSuggestions(event);
+    }, 1000);
 });
 
 queryInput.addEventListener("blur", () => {
