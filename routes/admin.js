@@ -26,10 +26,12 @@ router.get("/collection", auth, async (req, res) => {
     const { name: collName="" } = req.query;
     const options = {
         data: [],
-        collName
+        collName,
+        count: { row: 0 }
     };
     const collData = collectionObj[collName];
     typeof collData === "function" ? options.data = await collData() : 0;
+    options.count.row = options.data.length;
 
     res.render("collection", options);
 });

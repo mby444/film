@@ -20,6 +20,13 @@
                 <a href="/admin/user/new" class="clear-btn btn btn-success text-white">Add</a>
             <% } %>
         </div>
+        <div class="count-container container p-2 pt-1 pb-1">
+            <ul>
+                <% for (let key in count) { %>
+                    <li><%= key %>: <%= count[key] %></li>
+                <% } %>
+            </ul>
+        </div>
         <div class="table-container container-fluid" style="overflow-x:auto;">
             <table class="table table-striped container-fluid" style="min-width:600px;">
                 <thead>
