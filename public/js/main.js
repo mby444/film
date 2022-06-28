@@ -116,6 +116,7 @@ formQuest.addEventListener("submit", (event) => {
 
 queryInput.addEventListener("input", (event) => {
     if (!event.target.value) {
+        clearTimeout(suggestionTimeout);
         suggestionTimeout = null;
         displaySuggestions([]);
         return;
