@@ -3,7 +3,7 @@ const deleteBtns = document.querySelectorAll(".delete-btn");
 let collection = ""
 
 const clearData = async () => {
-    if (!confirm("want to delete all data?")) return;
+    if (prompt("Type 'CONFIRM' to delete") !== "CONFIRM") return;
     try {
         const rawResponse = await fetch(`/admin/collection?name=${collection}&all=1`, {
             method: "DELETE",
