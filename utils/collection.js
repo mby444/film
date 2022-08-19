@@ -33,30 +33,30 @@ const filterData = (data=[], fields=[]) => {
 
 const collectionObj = {
     films: async () => {
-        const films = await Film.find({}).exec();
+        const films = await Film.find({});
         const fields = ["_id", "filmId", "filmTitle", "date", "url", "note"];
         const filtered = filterData(films, fields);
         return filtered;
     },
     questions: async () => {
-        const questions = await Question.find({}).exec();
+        const questions = await Question.find({});
         const fields = ["_id", "email", "message", "date"];
         const filtered = filterData(questions, fields);
         return filtered;
     },
     requests: async () => {
-        const requests = await Request.find({}).exec();
+        const requests = await Request.find({});
         const fields = ["_id", "filmId", "filmTitle", "date"];
         const filtered = filterData(requests, fields);
         return filtered;
     },
     users: async () => {
-        const users = await User.find({}).exec();
+        const users = await User.find({});
         const fields = ["_id", "email", "password"];
         const filtered = filterData(users, fields);
         return filtered;
     },
-    "": async () => ""
+    "": async () => []
 };
 
 const collectionName = {
@@ -64,7 +64,7 @@ const collectionName = {
     questions: () => Question,
     requests: () => Request,
     users: () => User,
-    "": () => ""
+    "": () => {}
 }
 
 export { collectionObj, collectionName };

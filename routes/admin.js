@@ -23,15 +23,19 @@ router.get("/", auth, async (req, res) => {
 });
 
 router.get("/collection", auth, async (req, res) => {
-    const { name: collName="" } = req.query;
+    const { name: collName="", limit: collLimit=15, page=1 } = req.query;
+    const limit = parseInt(collLimit);
     const options = {
         data: [],
         collName,
-        count: { row: 0 }
+        count: { row: 0 },
+        currentPage: parseInt(page),
+        maxPage: 1
     };
-    const collData = collectionObj[collName];
-    typeof collData === "function" ? options.data = await collData() : 0;
+    const collections = await collectionObj[collName]();
+    options.data = collections.slice(limit * (page - 1), limit * page);
     options.count.row = options.data.length;
+    options.maxPage = Math.ceil(collections.length / limit);
 
     res.render("collection", options);
 });

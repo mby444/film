@@ -27,6 +27,13 @@
                 <% } %>
             </ul>
         </div>
+        <% if (maxPage > 1) { %>
+            <div class="pointer container-sm d-flex justify-content-center mt-2 mb-5">
+                <a href="/admin/collection?name=<%= collName %>&page=<%= currentPage > 1 ? currentPage - 1 : 1 %>" class="btn btn-dark text-white">&#10094;</a>
+                <input type="text" value="Page <%= currentPage %> of <%= maxPage %>" class="text-center" disabled>
+                <a href="/admin/collection?name=<%= collName %>&page=<%= currentPage < maxPage ? currentPage + 1 : maxPage %>" class="btn btn-dark text-white">&#10095;</a>
+            </div>
+        <% } %>
         <div class="table-container container-fluid" style="overflow-x:auto;">
             <table class="table table-striped container-fluid" style="min-width:600px;">
                 <thead>
@@ -56,6 +63,21 @@
                 </tbody>
             </table>
         </div>
+        <% if (maxPage > 1) { %>
+            <div class="pointer container-sm d-flex justify-content-center mt-5 mb-2">
+                <a href="/admin/collection?name=<%= collName %>&page=<%= currentPage > 1 ? currentPage - 1 : 1 %>" class="btn btn-dark text-white">&#10094;</a>
+                <input type="text" value="Page <%= currentPage %> of <%= maxPage %>" class="text-center" disabled>
+                <a href="/admin/collection?name=<%= collName %>&page=<%= currentPage < maxPage ? currentPage + 1 : maxPage %>" class="btn btn-dark text-white">&#10095;</a>
+            </div>
+            <div class="jump-container container d-flex justify-content-center pt-2 pb-2">
+                <form class="jump-form container d-flex justify-content-center align-items-center pt-4">
+                    <input type="hidden" name="name" value="<%= collName %>">
+                    <span class="p-2 pt-0 pb-0">Jump to page: </span>
+                    <input type="number" name="page" value="<%= currentPage %>" id="jump-input" class="form-control" required style="width:100px;">
+                    <input type="submit" value="Go" class="jump-btn btn btn-danger m-2 mt-1 mb-1">
+                </form>
+            </div>
+        <% } %>
     <% } else { %>
         <div class="alert alert-secondary text-center">
             <p>No data</p>
