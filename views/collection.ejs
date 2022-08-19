@@ -29,9 +29,22 @@
         </div>
         <% if (maxPage > 1) { %>
             <div class="pointer container-sm d-flex justify-content-center mt-2 mb-5">
-                <a href="/admin/collection?name=<%= collName %>&page=<%= currentPage > 1 ? currentPage - 1 : 1 %>" class="btn btn-dark text-white">&#10094;</a>
+                <a href="/admin/collection?name=<%= collName %>&page=<%= currentPage > 1 ? currentPage - 1 : 1 %>&sort=<%= sort %>" class="btn btn-dark text-white">&#10094;</a>
                 <input type="text" value="Page <%= currentPage %> of <%= maxPage %>" class="text-center" disabled>
-                <a href="/admin/collection?name=<%= collName %>&page=<%= currentPage < maxPage ? currentPage + 1 : maxPage %>" class="btn btn-dark text-white">&#10095;</a>
+                <a href="/admin/collection?name=<%= collName %>&page=<%= currentPage < maxPage ? currentPage + 1 : maxPage %>&sort=<%= sort %>" class="btn btn-dark text-white">&#10095;</a>
+            </div>
+        <% } %>
+        <% if (data.length > 1) { %>
+            <div class="dropdown-container container container-fluid">
+                <div class="dropdown">
+                    <button class="btn btn-dark btn-sm dropdown-toggle text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Sort
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item <%= sort === "newest" ? "active" : "" %>" href="/admin/collection?name=<%= collName %>&page=<%= currentPage %>&sort=newest">Newest</a></li>
+                        <li><a class="dropdown-item <%= sort === "oldest" ? "active" : "" %>" href="/admin/collection?name=<%= collName %>&page=<%= currentPage %>&sort=oldest">Oldest</a></li>
+                    </ul>
+                  </div>
             </div>
         <% } %>
         <div class="table-container container-fluid" style="overflow-x:auto;">
@@ -65,9 +78,9 @@
         </div>
         <% if (maxPage > 1) { %>
             <div class="pointer container-sm d-flex justify-content-center mt-5 mb-2">
-                <a href="/admin/collection?name=<%= collName %>&page=<%= currentPage > 1 ? currentPage - 1 : 1 %>" class="btn btn-dark text-white">&#10094;</a>
+                <a href="/admin/collection?name=<%= collName %>&page=<%= currentPage > 1 ? currentPage - 1 : 1 %>&sort=<%= sort %>" class="btn btn-dark text-white">&#10094;</a>
                 <input type="text" value="Page <%= currentPage %> of <%= maxPage %>" class="text-center" disabled>
-                <a href="/admin/collection?name=<%= collName %>&page=<%= currentPage < maxPage ? currentPage + 1 : maxPage %>" class="btn btn-dark text-white">&#10095;</a>
+                <a href="/admin/collection?name=<%= collName %>&page=<%= currentPage < maxPage ? currentPage + 1 : maxPage %>&sort=<%= sort %>" class="btn btn-dark text-white">&#10095;</a>
             </div>
             <div class="jump-container container d-flex justify-content-center pt-2 pb-2">
                 <form class="jump-form container d-flex justify-content-center align-items-center pt-4">

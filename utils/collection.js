@@ -31,6 +31,16 @@ const filterData = (data=[], fields=[]) => {
 //     }
 // };
 
+const sortCollection = (collections=[], option="oldest") => {
+    const sorted = collections.sort((a, b) => {
+        const dateA = new Date(a.date);
+        const dateB = new Date(b.date);
+        return dateA.getTime() - dateB.getTime();
+    });
+    option === "oldest" ? 0 : sorted.reverse();
+    return sorted;
+};
+
 const collectionObj = {
     films: async () => {
         const films = await Film.find({});
@@ -67,4 +77,4 @@ const collectionName = {
     "": () => {}
 }
 
-export { collectionObj, collectionName };
+export { collectionObj, collectionName, sortCollection };
