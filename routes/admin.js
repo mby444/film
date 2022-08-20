@@ -50,11 +50,11 @@ router.get("/user/new", auth, (req, res) => {
 });
 
 router.get("/film/edit", auth, (req, res) => {
-    const { id, url, note } = req.query;
+    const { id, url, note="" } = req.query;
     const options = {
         id,
-        url,
-        note,
+        url: decodeURIComponent(url),
+        note: decodeURIComponent(note),
         error: null
     }
     res.render("edit-film", options);

@@ -67,7 +67,7 @@
                                 <% if (collName === "requests") { %>
                                     <button class="approve-btn btn btn-success text-white" <%- `onclick="approveData('${d.filmId}', '${d.filmTitle}', '${d.date}')"` %>>Approve</button>
                                 <% } else if (collName === "films") { %>
-                                    <a href="/admin/film/edit?id=<%= d.filmId %>&url=<%= d.url %>&note=<%= d.note %>" class="edit-btn btn btn-warning text-white">Edit</a>
+                                    <a href="/admin/film/edit?id=<%= d.filmId %>&url=<%= encodeURIComponent(d.url || "") %>&note=<%= encodeURIComponent(d.note || "") %>" class="edit-btn btn btn-warning text-white">Edit</a>
                                 <% } %>
                                 <button class="delete-btn btn btn-danger text-white" <%- `onclick="deleteData('${d._id}')"` %>>Delete</button>
                             </td>
@@ -93,7 +93,7 @@
         <% } %>
     <% } else { %>
         <div class="alert alert-secondary text-center">
-            <p>No data</p>
+            <p>No data (<a href="/admin" class="text-black">back</a>)</p>
         </div>
     <% } %>
     <script src="/js/collection.js"></script>

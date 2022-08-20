@@ -44,7 +44,11 @@ const deleteData = async (_id) => {
 
 const approveData = async (filmId, filmTitle, date) => {
     const filmUrl = prompt("G-Drive URL");
-    if (!filmUrl) return;
+    const filmUrlMatch = filmUrl.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+    if (!(filmUrl && filmUrlMatch)) {
+        alert("Invalid URL!");
+        return;
+    };
     try {
         const payload = JSON.stringify({ filmId, filmTitle, date, url: filmUrl });
         const rawResponse = await fetch(`/admin/film`, {
