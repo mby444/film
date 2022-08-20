@@ -19,6 +19,7 @@
         <% } %>
     <h1 class="h1 text-center pt-2 pb-5">Login</h1>
     <form action="/admin/logged" method="post" class="container">
+        <input type="hidden" name="original_url" value="<%= originalUrl %>">
         <input type="email" name="email" placeholder="Email" required class="form-control mt-2 mb-4">
         <input type="password" name="password" placeholder="Password" required class="form-control mt-2 mb-4">
         <input type="submit" value="Log In" class="btn btn-warning text-white mt-2"> 

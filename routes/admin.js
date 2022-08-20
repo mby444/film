@@ -6,6 +6,7 @@ import User from "../database/model/user.js";
 import Film from "../database/model/film.js";
 import Request from "../database/model/request.js";
 import { collectionObj, collectionName, sortCollection } from "../utils/collection.js";
+import { getLoginErrorMessage } from "../utils/login.js";
 import { auth } from "../middleware/auth.js";
 import { __dirname } from "../config/path.js";
 
@@ -60,6 +61,18 @@ router.get("/film/edit", auth, (req, res) => {
     res.render("edit-film", options);
 });
 
+router.get("/login", (req, res) => {
+    const { original_url, error="" } = req.query;
+    const decOriginalUrl = decodeURIComponent(original_url);
+    const errorMessage = getLoginErrorMessage(error);
+    const options = {
+        error: errorMessage,
+        originalUrl: decOriginalUrl
+    };
+
+    res.render("login", options);
+});
+
 router.post("/user/new", async (req, res) => {
     const { email, password } = req.body;
     const oldUser = await User.findOne({ email });
@@ -71,20 +84,21 @@ router.post("/user/new", async (req, res) => {
 });
 
 router.post("/logged", async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password, original_url } = req.body;
+    const encOriginalUrl = encodeURIComponent(original_url);
     const user = await User.findOne({ email });
+    const isValidPassword = bcrypt.compareSync(password, user.password);
 
     if (!user) {
-        return res.render("login", { error: "Invalid email or password!" });
+        return res.redirect(`/admin/login?original_url=${encOriginalUrl}&error=invalid`);
     }
-    const isValidPassword = bcrypt.compareSync(password, user.password);
     if (!isValidPassword) {
-        return res.render("login", { error: "Invalid password!" });
+        return res.redirect(`/admin/login?original_url=${encOriginalUrl}&error=invalid`)
     }
     
     res.cookie("email", email, { maxAge: 1000 * 60 * 60, httpOnly: true });
     res.cookie("password", password, { maxAge: 1000 * 60 * 60, httpOnly: true });
-    res.render("logged");
+    res.redirect(original_url);
 });
 
 router.post("/film", async (req, res) => {
