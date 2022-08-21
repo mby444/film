@@ -1,19 +1,20 @@
 import express from "express";
 import Film from "../database/model/film.js";
-import { searchFilms, getFilm, getTopFilms, getTrailerKey, getMainInformations } from "../utils/film.js";
+import { searchFilms, getFilm, getTopFilms, getTrendings, getTrailerKey, getMainInformations } from "../utils/film.js";
 import { formatFilmDuration } from "../utils/formatter.js";
 
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-    const { page } = req.query;
-    const films = await getTopFilms(page);
+    const { page=1 } = req.query;
+    // const films = await getTopFilms(page);
+    const films = await getTrendings(page);
     const pageTotal = films.total_pages;
     const filmError = films.error ? films.message : null;
     const options = {
         query: null,
         pageTotal,
-        page: page || 1,
+        page,
         films,
         filmError
     };

@@ -45,7 +45,7 @@ const getFilm = async (filmId="") => {
             error: true,
             message: "Something went wrong"
         };
-        err.name === "NotFoundError" ? errObj.message = `Film with id ${filmId} not found` 
+        err.name === "NotFoundError" ? errObj.message = `Film with id ${filmId} was not found` 
         : err.name === "UndefinedError" ? errObj.message = "Something went wrong"
         : 0;
         return errObj;
@@ -57,7 +57,9 @@ const searchFilms = async (filmName="", page=1) => {
         if (!filmName) throw { name: "UndefinedError" };
         const films = await fetch(`https://api.themoviedb.org/3/search/movie?query=${filmName}&page=${page}&api_key=${process.env.API_KEY_FILM}`);
         const data = await films.json();
-        data.results = data.results.filter((result) => result.vote_average && result.poster_path);
+        data.results = data.results.filter((result) => {
+            return result.vote_average && result.poster_path;
+        });
         if (page < 1 || page > data.total_pages) throw { name: "OutOfRange" };
         if (data.results.length === 0) throw { name: "NotFoundError" };
         return data;
@@ -96,6 +98,28 @@ const getTopFilms = async (page) => {
     }
 };
 
+const getTrendings = async (page) => {
+    try {
+        const rawTrendings = await fetch(`https://api.themoviedb.org/3/trending/all/day?api_key=${process.env.API_KEY_FILM}&page=${page}`);
+        const trendings = await rawTrendings.json();
+        if (!trendings.results) throw { name: "NotFoundError" };
+        trendings.results = trendings.results.filter((trending, i) => {
+            return trending.vote_average && trending.poster_path && trending.media_type === "movie";
+        });
+        return trendings;
+    } catch (err) {
+        const errObj = {
+            error: true,
+            message: err.message
+        };
+        err.name === "OutOfRange" ? errObj.message = "Page not found"
+        : err.name === "NotFoundError" ? errObj.message = `Not found` 
+        : err.name === "UndefinedError" ? errObj.message = "Something went wrong"
+        : 0;
+        return errObj;
+    }
+};
+
 const getOfficialTrailer = (trailers=[]) => {
     let output = trailers[0];
     trailers.forEach((trailer, i) => {
@@ -119,6 +143,7 @@ export {
     searchFilms,
     getFilm,
     getTopFilms,
+    getTrendings,
     getTrailerKey,
     getMainInformations
 };
