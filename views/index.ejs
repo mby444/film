@@ -28,8 +28,8 @@
     </header>
     <div class="main-container container-fluid pt-5 pb-5">
         <form action="/search" method="get" class="container-md d-flex justify-content-center align-items-center flex-row">
-            <input type="text" name="q" id="q-input" value="<%= filmError ? query : "" %>" autocomplete="off" placeholder="Search film..." required class="form-control" style="max-width:500px;">
-            <input type="submit" value="Search" class="search-btn btn btn-dark">
+            <input type="text" name="q" id="q-input" value="<%= filmError ? query : "" %>" autocomplete="off" placeholder="Search film..." required accesskey="s" class="form-control" style="max-width:500px;">
+            <input type="submit" value="Search" class="search-btn btn btn-dark disabled">
         </form>
         <div class="live-suggestion-container container" style="display:none; width:95%; max-width:500px; z-index:10; border: 1px solid #000;">
             <!-- <div class="row p-1 pt-0 pb-0">First</div>
@@ -48,9 +48,9 @@
                 <h6 class="h6"><i>Search for <b>&quot;<%= query %>&quot;</b></i></h6>
             </div>
             <div class="pointer container-sm d-flex justify-content-center mt-5">
-                <a href="/search?q=<%= query %>&page=<%= +page - 1 <= 0 ? 1 : +page - 1 %>" class="btn btn-dark text-white">&#10094;</a>
+                <a href="/search?q=<%= query %>&page=<%= +page - 1 <= 0 ? 1 : +page - 1 %>" accesskey="l" class="btn btn-dark text-white">&#10094;</a>
                 <input type="text" value="Page <%= page %> of <%= pageTotal %>" class="text-center" disabled>
-                <a href="/search?q=<%= query %>&page=<%= +page + 1 > +pageTotal ? +page : +page + 1 %>" class="btn btn-dark text-white">&#10095;</a>
+                <a href="/search?q=<%= query %>&page=<%= +page + 1 > +pageTotal ? +page : +page + 1 %>" accesskey="r" class="btn btn-dark text-white">&#10095;</a>
             </div>
         <% } else if (!query) { %>
             <div class="pointer container-sm d-flex justify-content-center mt-5">
@@ -116,7 +116,7 @@
                     <form class="jump-form container d-flex justify-content-center align-items-center pt-4">
                         <input type="hidden" name="q" value="<%= query %>">
                         <span class="p-2 pt-0 pb-0">Jump to page: </span>
-                        <input type="number" name="page" id="jump-input" class="form-control" required style="width:100px;">
+                        <input type="number" name="page" id="jump-input" value="<%= page %>" class="form-control" required style="width:100px;">
                         <input type="submit" value="Go" class="jump-btn btn btn-danger m-2 mt-1 mb-1">
                     </form>
                 </div>

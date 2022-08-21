@@ -2,6 +2,7 @@
 const formQuest = document.querySelector(".form-quest");
 const queryInput = document.querySelector("#q-input");
 const suggestionContainer = document.querySelector(".live-suggestion-container");
+const searchBtn = document.querySelector(".search-btn");
 
 let suggestionTimeout = null;
 
@@ -115,15 +116,18 @@ formQuest.addEventListener("submit", (event) => {
 });
 
 queryInput.addEventListener("input", (event) => {
-    if (!event.target.value) {
+    const userInput = event.target.value.trim();
+    if (!userInput) {
         clearTimeout(suggestionTimeout);
         suggestionTimeout = null;
         displaySuggestions([]);
+        searchBtn.classList.add("disabled");
         return;
     }
     suggestionTimeout = setTimeout(() => {
         genSuggestions(event);
     }, 1000);
+    searchBtn.classList.remove("disabled");
 });
 
 queryInput.addEventListener("blur", () => {
