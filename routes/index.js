@@ -1,6 +1,14 @@
 import express from "express";
 import Film from "../database/model/film.js";
-import { searchFilms, getFilm, getTopFilms, getTrendings, getTrailerKey, getMainInformations } from "../utils/film.js";
+import { 
+    searchFilms,
+    getFilm,
+    getTopFilms,
+    getTrendings,
+    getTrailerKey,
+    getMainInformations,
+    getCasts
+} from "../utils/film.js";
 import { formatFilmDuration } from "../utils/formatter.js";
 
 const router = express.Router();
@@ -41,10 +49,12 @@ router.get("/search", async (req, res) => {
 router.get("/info/:id", async (req, res) => {
     const { id: filmId } = req.params;
     const film = await getFilm(filmId);
+    const casts = await getCasts(filmId, 15);
 
     if (film.error) {
         return res.status(400).send(film.message);
     }
+    film.casts = casts;
 
     const mainInformations = getMainInformations(film);
     const trailerKey = await getTrailerKey(filmId);

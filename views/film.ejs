@@ -101,6 +101,21 @@ const adultLabel = `<span class="badge bg-danger text-white">18+</span>`;
                 <% }) %>
             </table>
         </div>
+        <h3 class="h3 text-center pt-5 pb-3">Cast</h3>
+        <div class="cast-container container-fluid justify-content-center">
+            <% film.casts.forEach((cast, i) => { %>
+                <div class="cast-card card m-2">
+                    <a href="https://google.com/search?q=<%= cast.name %>" target="_blank">
+                        <img src="https://image.tmdb.org/t/p/w500<%= cast.profile_path %>" class="card-img-top" alt="">
+                    </a>
+                    <div class="card-body">
+                      <h6 class="cast-card-title card-title"><%= cast.name %></h6>
+                      <p class="card-text"><%= cast.character %></p>
+                      <!-- <a href="https://google.com/search?q=<%= /* cast.name */ %>" target="_blank" class="btn btn-sm btn-primary">Details</a> -->
+                    </div>
+                  </div>
+            <% }) %>
+        </div>
         <div class="ad-container container d-flex justify-content-center align-items-center pt-5 pb-4">
             <script type="text/javascript">
                 atOptions = {

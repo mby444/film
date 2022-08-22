@@ -120,6 +120,16 @@ const getTrendings = async (page) => {
     }
 };
 
+const getCasts = async (filmId, limit=null) => {
+    const rawCredits = await fetch(`https://api.themoviedb.org/3/movie/${filmId}/credits?api_key=${process.env.API_KEY_FILM}`);
+    const credits = await rawCredits.json();
+    const casts = credits.cast.filter((cast, i) => {
+        return cast.profile_path;
+    });
+    limit ? casts.splice(limit, casts.length - limit) : 0;
+    return casts;
+};
+
 const getOfficialTrailer = (trailers=[]) => {
     let output = trailers[0];
     trailers.forEach((trailer, i) => {
@@ -145,5 +155,6 @@ export {
     getTopFilms,
     getTrendings,
     getTrailerKey,
-    getMainInformations
+    getMainInformations,
+    getCasts
 };

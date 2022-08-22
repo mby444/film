@@ -45,6 +45,15 @@ header {
     word-break: break-all;
 }
 
+.cast-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+}
+
+.cast-card {
+    max-width: 50vh;
+}
+
 @media screen and (max-width: 786px) {
     .trailer-video {
         width: 100%;
