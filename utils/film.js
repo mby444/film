@@ -120,14 +120,19 @@ const getTrendings = async (page) => {
     }
 };
 
-const getCasts = async (filmId, limit=null) => {
+const getCast = async (filmId, limit=null) => {
     const rawCredits = await fetch(`https://api.themoviedb.org/3/movie/${filmId}/credits?api_key=${process.env.API_KEY_FILM}`);
     const credits = await rawCredits.json();
     const casts = credits.cast.filter((cast, i) => {
         return cast.profile_path;
     });
+    const originalCastCount = casts.length;
     limit ? casts.splice(limit, casts.length - limit) : 0;
-    return casts;
+    const output = {
+        castCount: originalCastCount,
+        casts
+    };
+    return output;
 };
 
 const getOfficialTrailer = (trailers=[]) => {
@@ -156,5 +161,5 @@ export {
     getTrendings,
     getTrailerKey,
     getMainInformations,
-    getCasts
+    getCast
 };

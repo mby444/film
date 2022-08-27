@@ -1,3 +1,5 @@
+const castContainer = document.querySelector(".cast-container");
+const castBtn = document.querySelector(".cast-btn");
 let filmId = 0;
 
 const sendFilmRequest = async (filmId, filmTitle, filmDate) => {
@@ -79,7 +81,32 @@ const checkReqBtn = async () => {
     changeClassName(reqBtn, "btn-warning", "btn-secondary");
 };
 
+const showAllCasts = async () => {
+    castBtn.style.display = "none";
+    const rawCast = await fetch(`/film/cast/${filmId}`);
+    const { data: casts } = await rawCast.json();
+    const castElements = casts.map((cast, i) => {
+        const element = `
+            <div class="cast-card card m-2">
+                <a href="https://google.com/search?q=${cast.name}" target="_blank">
+                    <img src="https://image.tmdb.org/t/p/w500${cast.profile_path}" class="card-img-top" alt="">
+                </a>
+                <div class="card-body">
+                    <h6 class="cast-card-title card-title">${cast.name}</h6>
+                    <p class="card-text">${cast.character}</p>
+                </div>
+            </div>
+        `;
+        return element;
+    });
+    castContainer.innerHTML = castElements.join("");
+};
+
 const loadWindow = (_filmId="") => {
     filmId = parseInt(_filmId);
     checkReqBtn();
 };
+
+castBtn?.addEventListener("click", () => {
+    showAllCasts();
+});

@@ -111,11 +111,15 @@ const adultLabel = `<span class="badge bg-danger text-white">18+</span>`;
                     <div class="card-body">
                       <h6 class="cast-card-title card-title"><%= cast.name %></h6>
                       <p class="card-text"><%= cast.character %></p>
-                      <!-- <a href="https://google.com/search?q=<%= /* cast.name */ %>" target="_blank" class="btn btn-sm btn-primary">Details</a> -->
                     </div>
                   </div>
             <% }) %>
         </div>
+        <% if (film.casts.length < film.castCount) { %>
+            <div class="cast-btn-container container-fluid d-flex justify-content-center">
+                <button class="cast-btn btn btn-sm btn-outline-dark p-2 mt-4">Show more</button>
+            </div>
+        <% } %>
         <div class="ad-container container d-flex justify-content-center align-items-center pt-5 pb-4">
             <script type="text/javascript">
                 atOptions = {

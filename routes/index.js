@@ -7,7 +7,7 @@ import {
     getTrendings,
     getTrailerKey,
     getMainInformations,
-    getCasts
+    getCast
 } from "../utils/film.js";
 import { formatFilmDuration } from "../utils/formatter.js";
 
@@ -48,13 +48,15 @@ router.get("/search", async (req, res) => {
 
 router.get("/info/:id", async (req, res) => {
     const { id: filmId } = req.params;
+    const { cast_limit: castLimit=15 } = req.query;
     const film = await getFilm(filmId);
-    const casts = await getCasts(filmId, 15);
+    const { castCount, casts } = await getCast(filmId, castLimit);
 
     if (film.error) {
         return res.status(400).send(film.message);
     }
     film.casts = casts;
+    film.castCount = castCount;
 
     const mainInformations = getMainInformations(film);
     const trailerKey = await getTrailerKey(filmId);
