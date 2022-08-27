@@ -3,14 +3,6 @@ import Question from "../database/model/question.js";
 import Request from "../database/model/request.js";
 import User from "../database/model/user.js";
 
-// class Action {
-//     constructor(text="", href="", className="") {
-//         this.text = text;
-//         this.href = href;
-//         this.className = className;
-//     }
-// }
-
 const filterData = (data=[], fields=[]) => {
     let output = [];
     for (let d of data) {
@@ -23,14 +15,6 @@ const filterData = (data=[], fields=[]) => {
     return output;
 };
 
-// const actionObj = {
-//     films: () => {
-//         const actions = [
-//             new Action("Approve", "/admin")
-//         ]
-//     }
-// };
-
 const sortCollection = (collections=[], option="oldest") => {
     const sorted = collections.sort((a, b) => {
         const dateA = new Date(a.date);
@@ -39,6 +23,17 @@ const sortCollection = (collections=[], option="oldest") => {
     });
     option === "oldest" ? 0 : sorted.reverse();
     return sorted;
+};
+
+const searchCollection = (collections=[], pattern, property="") => {
+    const filteredCollections = collections.filter((collection, i) => {
+        const regex = new RegExp(pattern, "i");
+        if (!property) {
+            return collection.match(regex);
+        }
+        return collection[property].match(regex);
+    });
+    return filteredCollections;
 };
 
 const collectionObj = {
@@ -77,4 +72,4 @@ const collectionName = {
     "": () => {}
 }
 
-export { collectionObj, collectionName, sortCollection };
+export { collectionObj, collectionName, sortCollection, searchCollection };

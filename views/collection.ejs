@@ -27,6 +27,14 @@
                 <% } %>
             </ul>
         </div>
+        <form action="" method="get" class="search-container container-fluid pt-2 pb-4 d-flex justify-content-center" style="max-width: 500px;">
+            <input type="hidden" name="name" value="<%= collName %>">
+            <input type="hidden" name="limit" value="<%= collLimit %>">
+            <input type="hidden" name="page" value="<%= currentPage %>">
+            <input type="hidden" name="sort" value="<%= sort %>">
+            <input type="text" name="search" value="<%= search %>" placeholder="Search..." class="search form-control">
+            <input type="submit" value="Go" class="btn btn-dark">
+        </form>
         <% if (maxPage > 1) { %>
             <div class="pointer container-sm d-flex justify-content-center mt-2 mb-5">
                 <a href="/admin/collection?name=<%= collName %>&page=<%= currentPage > 1 ? currentPage - 1 : 1 %>&sort=<%= sort %>" class="btn btn-dark text-white">&#10094;</a>

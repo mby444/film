@@ -5,7 +5,7 @@ import path from "path";
 import User from "../database/model/user.js";
 import Film from "../database/model/film.js";
 import Request from "../database/model/request.js";
-import { collectionObj, collectionName, sortCollection } from "../utils/collection.js";
+import { collectionObj, collectionName, sortCollection, searchCollection } from "../utils/collection.js";
 import { getLoginErrorMessage } from "../utils/login.js";
 import { auth } from "../middleware/auth.js";
 import { __dirname } from "../config/path.js";
@@ -24,11 +24,13 @@ router.get("/", auth, async (req, res) => {
 });
 
 router.get("/collection", auth, async (req, res) => {
-    const { name: collName="", limit: collLimit=15, page=1, sort="newest" } = req.query;
+    const { name: collName="", search="", limit: collLimit=15, page=1, sort="newest" } = req.query;
     const limit = parseInt(collLimit);
     const options = {
         data: [],
         collName,
+        search,
+        collLimit: parseInt(collLimit),
         count: { row: 0 },
         currentPage: parseInt(page),
         maxPage: 1,
@@ -36,9 +38,15 @@ router.get("/collection", auth, async (req, res) => {
     };
     const collections = await collectionObj[collName]();
     const sortedCollections = sortCollection(collections, sort);
-    options.data = sortedCollections.slice(limit * (page - 1), limit * page);
+    if (search.trim()) {
+        const searchedCollections = searchCollection(sortedCollections, search, "filmTitle");
+        options.data = searchedCollections.slice(limit * (page - 1), limit * page);
+        options.maxPage = Math.ceil(searchedCollections.length / limit);
+    } else {
+        options.data = sortedCollections.slice(limit * (page - 1), limit * page);
+        options.maxPage = Math.ceil(collections.length / limit);
+    }
     options.count.row = options.data.length;
-    options.maxPage = Math.ceil(collections.length / limit);
 
     res.render("collection", options);
 });
