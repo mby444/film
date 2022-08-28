@@ -81,8 +81,17 @@ const checkReqBtn = async () => {
     changeClassName(reqBtn, "btn-warning", "btn-secondary");
 };
 
+const showLoader = (selector) => {
+    const element = document.querySelector(selector);
+    const loaderElement = `
+        <span class="spinner-border m-4 mt-0 mb-0" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </span>
+    `;
+    element.innerHTML = loaderElement;
+};
+
 const showAllCasts = async () => {
-    castBtn.style.display = "none";
     const rawCast = await fetch(`/film/cast/${filmId}`);
     const { data: casts } = await rawCast.json();
     const castElements = casts.map((cast, i) => {
@@ -107,6 +116,8 @@ const loadWindow = (_filmId="") => {
     checkReqBtn();
 };
 
-castBtn?.addEventListener("click", () => {
-    showAllCasts();
+castBtn?.addEventListener("click", async () => {
+    showLoader(".cast-btn");
+    await showAllCasts();
+    castBtn.style.display = "none";
 });
