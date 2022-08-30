@@ -39,7 +39,9 @@ router.get("/collection", auth, async (req, res) => {
     const collections = await collectionObj[collName]();
     const sortedCollections = sortCollection(collections, sort);
     if (search.trim()) {
-        const searchedCollections = searchCollection(sortedCollections, search, "filmTitle");
+        let searchProperty = "filmTitle";
+        if (collName === "users") searchProperty = "email";
+        const searchedCollections = searchCollection(sortedCollections, search, searchProperty);
         options.data = searchedCollections.slice(limit * (page - 1), limit * page);
         options.maxPage = Math.ceil(searchedCollections.length / limit);
     } else {
