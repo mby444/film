@@ -28,7 +28,8 @@
             <input type="hidden" name="id" value="<%= id %>">
             <input type="url" name="url" value="<%= url %>" required id="url-input" class="form-control mt-3 mb-2" placeholder="G_Drive URL">
             <input type="text" name="note" value="<%= note %>" id="note-input" class="form-control mt-3 mb-2" placeholder="Add note">
-            <a href="/admin/collection?name=films" class="btn btn-outline-secondary text-dark p-4 pt-2 pb-2 mt-4 mb-2">Cancel</a>
+            <input type="hidden" name="original_url" value="<%= encodeURIComponent(originalUrl) %>">
+            <a href="<%= originalUrl %>" class="btn btn-outline-secondary text-dark p-4 pt-2 pb-2 mt-4 mb-2">Cancel</a>
             <input type="submit" value="Save" class="submit-btn btn btn-dark text-white p-4 pt-2 pb-2 mt-4 mb-2">
         </form>
     </div>

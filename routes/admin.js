@@ -25,6 +25,7 @@ router.get("/", auth, async (req, res) => {
 
 router.get("/collection", auth, async (req, res) => {
     const { name: collName="", search="", limit: collLimit=15, page=1, sort="newest" } = req.query;
+    const originalUrl = req.originalUrl;
     const limit = parseInt(collLimit);
     const options = {
         data: [],
@@ -34,7 +35,8 @@ router.get("/collection", auth, async (req, res) => {
         count: { row: 0 },
         currentPage: parseInt(page),
         maxPage: 1,
-        sort
+        sort,
+        originalUrl
     };
     const collections = await collectionObj[collName]();
     const sortedCollections = sortCollection(collections, sort);
@@ -54,20 +56,25 @@ router.get("/collection", auth, async (req, res) => {
 });
 
 router.get("/user/new", auth, (req, res) => {
+    const { original_url: originalUrl } = req.query;
     const options = {
-        error: null
+        error: null,
+        originalUrl: decodeURIComponent(originalUrl)
     }
+
     res.render("new-user", options);
 });
 
 router.get("/film/edit", auth, (req, res) => {
-    const { id, url, note="" } = req.query;
+    const { id, url, note="", original_url: originalUrl="/admin" } = req.query;
     const options = {
         id,
         url: decodeURIComponent(url),
         note: decodeURIComponent(note),
+        originalUrl: decodeURIComponent(originalUrl),
         error: null
     }
+
     res.render("edit-film", options);
 });
 
@@ -84,13 +91,14 @@ router.get("/login", (req, res) => {
 });
 
 router.post("/user/new", async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password, original_url: originalUrl } = req.body;
+    const decOriginalUrl = decodeURIComponent(originalUrl);
     const oldUser = await User.findOne({ email });
     if (oldUser) return res.render("new-user", { error: "User already exists!" });
     const passwordHash = bcrypt.hashSync(password);
     const newUser = new User({ email, password: passwordHash });
     await newUser.save();
-    res.redirect("/admin/collection?name=users");
+    res.redirect(decOriginalUrl);
 });
 
 router.post("/logged", async (req, res) => {
@@ -122,11 +130,12 @@ router.post("/film", async (req, res) => {
 });
 
 router.post("/film/edit", async (req, res) => {
-    const { id, url, note } = req.body;
+    const { id, url, note, original_url: originalUrl } = req.body;
+    const decOriginalUrl = decodeURIComponent(originalUrl);
     await Film.updateOne({ filmId: id }, {
         $set: { url, note }
     });
-    res.redirect("/admin/collection?name=films");
+    res.redirect(decOriginalUrl);
 });
 
 router.delete("/collection", async (req, res) => {

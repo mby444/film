@@ -17,7 +17,7 @@
             <a href="/admin" class="btn btn-warning text-white">Home</a>
             <button class="clear-btn btn btn-danger text-white">Delete all</button>
             <% if (collName === "users") { %>
-                <a href="/admin/user/new" class="clear-btn btn btn-success text-white">Add</a>
+                <a href="/admin/user/new?original_url=<%= encodeURIComponent(originalUrl) %>" class="clear-btn btn btn-success text-white">Add</a>
             <% } %>
         </div>
         <div class="count-container container p-2 pt-1 pb-1">
@@ -43,16 +43,28 @@
             </div>
         <% } %>
         <% if (data.length > 1) { %>
-            <div class="dropdown-container container container-fluid">
+            <div class="dropdown-container container container-fluid d-flex justify-content-end mb-2">
                 <div class="dropdown">
                     <button class="btn btn-dark btn-sm dropdown-toggle text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                       Sort
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item <%= sort === "newest" ? "active" : "" %>" href="/admin/collection?name=<%= collName %>&page=<%= currentPage %>&sort=newest">Newest</a></li>
-                        <li><a class="dropdown-item <%= sort === "oldest" ? "active" : "" %>" href="/admin/collection?name=<%= collName %>&page=<%= currentPage %>&sort=oldest">Oldest</a></li>
+                        <li><a class="dropdown-item <%= sort === "newest" ? "active" : "" %>" href="/admin/collection?name=<%= collName %>&page=<%= currentPage %>&search=<%= search %>&sort=newest&limit=<%= collLimit %>">Newest</a></li>
+                        <li><a class="dropdown-item <%= sort === "oldest" ? "active" : "" %>" href="/admin/collection?name=<%= collName %>&page=<%= currentPage %>&search=<%= search %>&sort=oldest&limit=<%= collLimit %>">Oldest</a></li>
                     </ul>
-                  </div>
+                </div>
+                <div class="dropdown">
+                    <button class="btn btn-dark btn-sm dropdown-toggle text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Rows
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item <%= collLimit === 15 ? "active" : "" %>" href="/admin/collection?name=<%= collName %>&page=<%= currentPage %>&search=<%= search %>&sort=<%= sort %>&limit=15">15</a></li>
+                        <li><a class="dropdown-item <%= collLimit === 25 ? "active" : "" %>" href="/admin/collection?name=<%= collName %>&page=<%= currentPage %>&search=<%= search %>&sort=<%= sort %>&limit=25">25</a></li>
+                        <li><a class="dropdown-item <%= collLimit === 50 ? "active" : "" %>" href="/admin/collection?name=<%= collName %>&page=<%= currentPage %>&search=<%= search %>&sort=<%= sort %>&limit=50">50</a></li>
+                        <li><a class="dropdown-item <%= collLimit === 100 ? "active" : "" %>" href="/admin/collection?name=<%= collName %>&page=<%= currentPage %>&search=<%= search %>&sort=<%= sort %>&limit=100">100</a></li>
+                        <li><a class="dropdown-item <%= collLimit === 500 ? "active" : "" %>" href="/admin/collection?name=<%= collName %>&page=<%= currentPage %>&search=<%= search %>&sort=<%= sort %>&limit=500">500</a></li>
+                    </ul>
+                </div>
             </div>
         <% } %>
         <div class="table-container container-fluid" style="overflow-x:auto;">
@@ -75,7 +87,7 @@
                                 <% if (collName === "requests") { %>
                                     <button class="approve-btn btn btn-success text-white" <%- `onclick="approveData('${d.filmId}', '${d.filmTitle}', '${d.date}')"` %>>Approve</button>
                                 <% } else if (collName === "films") { %>
-                                    <a href="/admin/film/edit?id=<%= d.filmId %>&url=<%= encodeURIComponent(d.url || "") %>&note=<%= encodeURIComponent(d.note || "") %>" class="edit-btn btn btn-warning text-white">Edit</a>
+                                    <a href="/admin/film/edit?id=<%= d.filmId %>&url=<%= encodeURIComponent(d.url || "") %>&note=<%= encodeURIComponent(d.note || "") %>&original_url=<%= encodeURIComponent(originalUrl) %>" class="edit-btn btn btn-warning text-white">Edit</a>
                                 <% } %>
                                 <button class="delete-btn btn btn-danger text-white" <%- `onclick="deleteData('${d._id}')"` %>>Delete</button>
                             </td>
