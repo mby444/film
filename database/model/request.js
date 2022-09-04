@@ -9,6 +9,9 @@ const Request = mongoose.model("requests", {
     },
     date: {
         type: String
+    },
+    total: {
+        type: Number
     }
 });
 

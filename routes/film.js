@@ -2,6 +2,7 @@ import express from "express";
 import Request from "../database/model/request.js";
 import { searchFilms, getFilm } from "../utils/film.js";
 import { getCast } from "../utils/film.js";
+import { saveReq } from "../utils/database.js";
 
 const router = express.Router();
 
@@ -39,10 +40,9 @@ router.get("/cast/:filmId", async (req, res) => {
     res.json(result);
 });
 
-router.post("/req", (req, res) => {
+router.post("/req", async (req, res) => {
     const { filmId, filmTitle, filmDate } = req.body;
-    const request = new Request({ filmId, filmTitle, date: filmDate });
-    request.save();
+    await saveReq(filmId, filmTitle, filmDate);
     res.json({ message: "ok" });
 });
 

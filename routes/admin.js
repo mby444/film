@@ -24,7 +24,14 @@ router.get("/", auth, async (req, res) => {
 });
 
 router.get("/collection", auth, async (req, res) => {
-    const { name: collName="", search="", limit: collLimit=15, page=1, sort="newest" } = req.query;
+    const {
+        name: collName="",
+        search="",
+        limit: collLimit=15,
+        page=1,
+        sort="newest"
+    } = req.query;
+    
     const originalUrl = req.originalUrl;
     const limit = parseInt(collLimit);
     const options = {
@@ -42,7 +49,13 @@ router.get("/collection", auth, async (req, res) => {
     const sortedCollections = sortCollection(collections, sort);
     if (search.trim()) {
         let searchProperty = "filmTitle";
-        if (collName === "users") searchProperty = "email";
+        switch (collName) {
+            case "users":
+                searchProperty = "email";
+                break;
+            default:
+                searchProperty = "filmTitle";
+        }
         const searchedCollections = searchCollection(sortedCollections, search, searchProperty);
         options.data = searchedCollections.slice(limit * (page - 1), limit * page);
         options.maxPage = Math.ceil(searchedCollections.length / limit);

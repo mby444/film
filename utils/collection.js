@@ -22,6 +22,7 @@ const sortCollection = (collections=[], option="oldest") => {
         return dateA.getTime() - dateB.getTime();
     });
     option === "oldest" ? 0 : sorted.reverse();
+    option === "popular" ? sorted.sort((a, b) => b.total - a.total) : 0;
     return sorted;
 };
 
@@ -51,7 +52,7 @@ const collectionObj = {
     },
     requests: async () => {
         const requests = await Request.find({});
-        const fields = ["_id", "filmId", "filmTitle", "date"];
+        const fields = ["_id", "filmId", "filmTitle", "date", "total"];
         const filtered = filterData(requests, fields);
         return filtered;
     },

@@ -13,5 +13,5 @@ const deleteLoginCookies = async () => {
 const logout = async () => {
     if (!confirm("Log out?")) return;
     const loggedOut = await deleteLoginCookies();
-    location.reload();
+    window.open("/", "_self");
 };

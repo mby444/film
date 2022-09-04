@@ -51,6 +51,7 @@
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item <%= sort === "newest" ? "active" : "" %>" href="/admin/collection?name=<%= collName %>&page=<%= currentPage %>&search=<%= search %>&sort=newest&limit=<%= collLimit %>">Newest</a></li>
                         <li><a class="dropdown-item <%= sort === "oldest" ? "active" : "" %>" href="/admin/collection?name=<%= collName %>&page=<%= currentPage %>&search=<%= search %>&sort=oldest&limit=<%= collLimit %>">Oldest</a></li>
+                        <li><a class="dropdown-item <%= sort === "popular" ? "active" : "" %>" href="/admin/collection?name=<%= collName %>&page=<%= currentPage %>&search=<%= search %>&sort=popular&limit=<%= collLimit %>">Popular</a></li>
                     </ul>
                 </div>
                 <div class="dropdown">
