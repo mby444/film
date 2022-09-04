@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "mby444",
   "license": "Apache-2.0",
@@ -24,6 +24,7 @@
     "tmdb": "^2.6.0"
   },
   "devDependencies": {
+    "jest": "^29.0.2",
     "nodemon": "^2.0.16"
   }
 }
