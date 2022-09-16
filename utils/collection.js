@@ -8,9 +8,14 @@ const filterData = (data=[], fields=[]) => {
     for (let d of data) {
         let obj = {};
         for (let field of fields) {
-            obj[field] = d[field]
+            let value = d[field];
+            if (value) {
+                obj[field] = value;
+            }
         }
-        output.push(obj);
+        if (Object.keys(obj).length > 0) {
+            output.push(obj);
+        }
     }
     return output;
 };

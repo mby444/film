@@ -2,6 +2,7 @@ import express from "express";
 import fs from "fs/promises";
 import bcrypt from "bcryptjs";
 import path from "path";
+import jwt from "jsonwebtoken";
 import User from "../database/model/user.js";
 import Film from "../database/model/film.js";
 import Request from "../database/model/request.js";
@@ -11,6 +12,7 @@ import { auth } from "../middleware/auth.js";
 import { __dirname } from "../config/path.js";
 
 const router = express.Router();
+const { ACCESS_KEY: accessKey } = process.env;
 
 router.get("/", auth, async (req, res) => {
     const options = {
@@ -126,9 +128,9 @@ router.post("/logged", async (req, res) => {
     if (!isValidPassword) {
         return res.redirect(`/admin/login?original_url=${encOriginalUrl}&error=invalid`)
     }
-    
-    res.cookie("email", email, { maxAge: 1000 * 60 * 60, httpOnly: true });
-    res.cookie("password", password, { maxAge: 1000 * 60 * 60, httpOnly: true });
+
+    const userToken = jwt.sign({ email, password }, accessKey, { expiresIn: "1h" });
+    res.cookie("user_token", userToken, { maxAge: 1000 * 60 * 60 * 24, httpOnly: true });
     res.redirect(original_url);
 });
 
@@ -173,8 +175,7 @@ router.delete("/collection", async (req, res) => {
 });
 
 router.delete("/logout", (req, res) => {
-    res.cookie("email", "", { maxAge: 0 });
-    res.cookie("password", "", { maxAge: 0 });
+    res.cookie("user_token", {}, { maxAge: 0, httpOnly: true });
     res.json({ message: "ok" });
 });
 

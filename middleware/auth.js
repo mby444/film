@@ -1,18 +1,30 @@
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import User from "../database/model/user.js";
+
+const { ACCESS_KEY: accesskey } = process.env;
 
 const auth = async (req, res, next) => {
     const { originalUrl } = req;
-    const { email, password } = req.cookies;
+    const userToken = req.cookies.user_token;
     const encOriginalUrl = encodeURIComponent(originalUrl);
-    
-    if (!(email && password)) return res.redirect(`/admin/login?original_url=${encOriginalUrl}`);
-    const userData = await User.findOne({ email });
-    if (!userData) return res.redirect(`/admin/login?original_url=${encOriginalUrl}&error=invalid`);
-    const isValidPassword = bcrypt.compareSync(password, userData.password);
-    if (!isValidPassword) return res.redirect(`/admin/login?original_url=${encOriginalUrl}&error=invalid`);
 
-    next();
+    try {
+        const user = jwt.verify(userToken, accesskey);
+
+        if (!userToken) return res.redirect(`/admin/login?original_url=${encOriginalUrl}`);
+        const userData = await User.findOne({ email: user.email });
+        if (!userData) return res.redirect(`/admin/login?original_url=${encOriginalUrl}&error=invalid`);
+        const isValidPassword = bcrypt.compareSync(user.password, userData.password);
+        if (!isValidPassword) return res.redirect(`/admin/login?original_url=${encOriginalUrl}&error=invalid`);
+
+        req.user = user;
+
+        next();
+    } catch (err) {
+        res.redirect(`/admin/login?original_url=${encOriginalUrl}`);
+    }
+    
 };
 
 export { auth };
