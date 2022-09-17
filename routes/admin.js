@@ -129,7 +129,7 @@ router.post("/logged", async (req, res) => {
         return res.redirect(`/admin/login?original_url=${encOriginalUrl}&error=invalid`)
     }
 
-    const userToken = jwt.sign({ email, password }, accessKey, { expiresIn: "1h" });
+    const userToken = jwt.sign({ email }, accessKey, { expiresIn: "1h" });
     res.cookie("user_token", userToken, { maxAge: 1000 * 60 * 60 * 24, httpOnly: true });
     res.redirect(original_url);
 });

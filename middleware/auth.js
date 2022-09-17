@@ -15,8 +15,6 @@ const auth = async (req, res, next) => {
         if (!userToken) return res.redirect(`/admin/login?original_url=${encOriginalUrl}`);
         const userData = await User.findOne({ email: user.email });
         if (!userData) return res.redirect(`/admin/login?original_url=${encOriginalUrl}&error=invalid`);
-        const isValidPassword = bcrypt.compareSync(user.password, userData.password);
-        if (!isValidPassword) return res.redirect(`/admin/login?original_url=${encOriginalUrl}&error=invalid`);
 
         req.user = user;
 
@@ -24,7 +22,6 @@ const auth = async (req, res, next) => {
     } catch (err) {
         res.redirect(`/admin/login?original_url=${encOriginalUrl}`);
     }
-    
 };
 
 export { auth };
