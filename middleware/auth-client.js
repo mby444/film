@@ -7,9 +7,9 @@ const authClient = async (req, res, next) => {
     try {
         if (!token) throw new Error("Cookie expired");
         const { email } = jwt.verify(token, userKey);
-        const hashedPassword = await UserClient.findOne({ email });
-        const user = { email, hashedPassword };
-        req.user = user;
+        const user = await UserClient.findOne({ email });
+        if (!user) throw new Error("User data not found");
+        req.user = { email, hashedPassword: user.password };
         next();
     } catch (err) {
         res.redirect("/login");

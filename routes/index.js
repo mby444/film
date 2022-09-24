@@ -5,10 +5,10 @@ import fetch from "node-fetch";
 import Film from "../database/model/film.js";
 import UserClient from "../database/model/user-client.js";
 import { authClient } from "../middleware/auth-client.js";
+import { signStatus } from "../middleware/sign-status.js";
 import { 
     searchFilms,
     getFilm,
-    getTopFilms,
     getTrendings,
     getTrailerKey,
     getMainInformations,
@@ -19,9 +19,8 @@ import { formatFilmDuration } from "../utils/formatter.js";
 const router = express.Router();
 const { ACCESS_USER_KEY: userKey, API_KEY_FILM: filmKey } = process.env;
 
-router.get("/", async (req, res) => {
+router.get("/", signStatus, async (req, res) => {
     const { page=1 } = req.query;
-    // const films = await getTopFilms(page);
     const films = await getTrendings(page);
     const pageTotal = films.total_pages;
     const filmError = films.error ? films.message : null;
@@ -30,13 +29,14 @@ router.get("/", async (req, res) => {
         pageTotal,
         page,
         films,
-        filmError
+        filmError,
+        signStatus: req.signStatus
     };
 
     res.render("index", options);
 });
 
-router.get("/search", async (req, res) => {
+router.get("/search", signStatus, async (req, res) => {
     const { q, page } = req.query;
     const films = await searchFilms(q, page);
     const pageTotal = films.total_pages;
@@ -46,7 +46,8 @@ router.get("/search", async (req, res) => {
         pageTotal,
         page: page || 1,
         films,
-        filmError
+        filmError,
+        signStatus: req.signStatus
     };
 
     res.render("index", options);
@@ -142,6 +143,8 @@ router.get("/session", authClient, async (req, res) => {
         });
         const { session_id: sessionId } = await rawSessionId.json();
         await UserClient.updateOne({ email }, { $set: { sessionId } });
+
+        res.cookie("request_token", {}, { maxAge: 0, httpOnly: true });
         res.redirect("/");
     } catch (err) {
         const options = {
@@ -150,8 +153,15 @@ router.get("/session", authClient, async (req, res) => {
             type: "login",
             originalUrl
         };
+
+        res.cookie("request_token", {}, { maxAge: 0, httpOnly: true });
         res.render("client-sign", options);
     }
+});
+
+router.get("/logout", async (req, res) => {
+    res.cookie("user_client_token", "", { maxAge: 0, httpOnly: true });
+    res.redirect("/");
 });
 
 router.post("/signup", async (req, res) => {

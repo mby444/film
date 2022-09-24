@@ -26,23 +26,22 @@
             <h4 class="h4">Film Informations and Trailers</h4>
         </div>
     </header>
+    <div class="container-fluid bg-dark pt-1 pb-1">
+        <% if (signStatus.isSigned && signStatus.hasSessionId) { %>
+            <a href="/logout" class="btn btn-sm btn-outline-danger">Log out</a>
+        <% } else if (signStatus.isSigned && !signStatus.hasSessionId) { %>
+            <a href="/request_token" class="btn btn-sm btn-outline-primary">Log in to TMDB</a>
+        <% } else { %>
+            <a href="/login" class="btn btn-sm btn-outline-warning">Log in</a>
+            <a href="/signup" class="btn btn-sm btn-warning">Sign up</a>
+        <% } %>
+    </div>
     <div class="main-container container-fluid pt-5 pb-5">
         <form action="/search" method="get" class="container-md d-flex justify-content-center align-items-center flex-row">
             <input type="text" name="q" id="q-input" value="<%= filmError ? query : "" %>" autocomplete="off" placeholder="Search film..." required accesskey="s" class="form-control" style="max-width:500px;">
             <input type="submit" value="Search" class="search-btn btn btn-dark disabled">
         </form>
-        <div class="live-suggestion-container container" style="display:none; width:95%; max-width:500px; z-index:10; border: 1px solid #000;">
-            <!-- <div class="row p-1 pt-0 pb-0">First</div>
-            <div class="row p-1 pt-0 pb-0">Second</div>
-            <div class="row p-1 pt-0 pb-0">Third</div>
-            <div class="row p-1 pt-0 pb-0">Fourth</div>
-            <div class="row p-1 pt-0 pb-0">Fifth</div>
-            <div class="row p-1 pt-0 pb-0">First</div>
-            <div class="row p-1 pt-0 pb-0">Second</div>
-            <div class="row p-1 pt-0 pb-0">Third</div>
-            <div class="row p-1 pt-0 pb-0">Fourth</div>
-            <div class="row p-1 pt-0 pb-0">Fifth</div> -->
-        </div>
+        <div class="live-suggestion-container container" style="display:none; width:95%; max-width:500px; z-index:10; border: 1px solid #000;"></div>
         <% if (query) { %>
             <div class="searchfor-container container d-flex justify-content-center align-items-center text-center text-secondary pt-4">
                 <h6 class="h6"><i>Search for <b>&quot;<%= query %>&quot;</b></i></h6>
