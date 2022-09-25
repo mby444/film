@@ -17,7 +17,7 @@ import {
 import { formatFilmDuration } from "../utils/formatter.js";
 
 const router = express.Router();
-const { ACCESS_USER_KEY: userKey, API_KEY_FILM: filmKey } = process.env;
+const { ACCESS_USER_KEY: userKey, API_KEY_FILM: filmKey, BASE_URL: baseUrl } = process.env;
 
 router.get("/", signStatus, async (req, res) => {
     const { page=1 } = req.query;
@@ -115,9 +115,7 @@ router.get("/sign_choice", authClient, (req, res) => {
 });
 
 router.get("/request_token", authClient, async (req, res) => {
-    const { hostname, protocol } = req;
-    const { PORT: port } = process.env;
-    const fullUrl = `${protocol}://${hostname}:${port}/session`;
+    const fullUrl = `${baseUrl}/session`;
     const rawReqToken = await fetch(`https://api.themoviedb.org/3/authentication/token/new?api_key=${filmKey}`);
     const { request_token: reqToken } = await rawReqToken.json();
 

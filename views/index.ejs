@@ -30,7 +30,8 @@
         <% if (signStatus.isSigned && signStatus.hasSessionId) { %>
             <a href="/logout" class="btn btn-sm btn-outline-danger">Log out</a>
         <% } else if (signStatus.isSigned && !signStatus.hasSessionId) { %>
-            <a href="/request_token" class="btn btn-sm btn-outline-primary">Log in to TMDB</a>
+            <a href="/logout" class="btn btn-sm btn-outline-danger">Log out</a>
+            <a href="/request_token" class="btn btn-sm btn-primary">Log in to TMDB</a>
         <% } else { %>
             <a href="/login" class="btn btn-sm btn-outline-warning">Log in</a>
             <a href="/signup" class="btn btn-sm btn-warning">Sign up</a>
