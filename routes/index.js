@@ -213,7 +213,7 @@ router.post("/login", async (req, res) => {
     const isValidPassword = await bcrypt.compare(password, user.password);
 
     if (!isValidPassword) {
-        options.error = "In valid password";
+        options.error = "Invalid password";
         return res.render("client-sign", options);
     }
 
