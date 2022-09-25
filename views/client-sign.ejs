@@ -28,9 +28,9 @@ const altText = type === "signup" ? `<div>Already have an account? please <a hre
                 <%= error %>
             </div>
         <% } %>
-        <form action="/<%= type %>" method="post" class="container-sm">
+        <form action="/<%= type %>" method="post" class="sign-form container-sm">
             <input type="email" name="email" required id="email-input" class="form-control mt-3 mb-2" placeholder="Email">
-            <input type="password" name="password" required id="password" class="form-control mt-3 mb-2" placeholder="Password">
+            <input type="password" name="password" required id="password-input" class="form-control mt-3 mb-2" placeholder="Password">
             <input type="hidden" name="original_url" value="<%= encodeURIComponent(originalUrl) %>">
             <%- altText %>
             <a href="/" class="btn btn-outline-secondary text-dark p-4 pt-2 pb-2 mt-4 mb-2">Cancel</a>

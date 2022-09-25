@@ -142,6 +142,11 @@ router.get("/session", authClient, async (req, res) => {
             })
         });
         const { session_id: sessionId } = await rawSessionId.json();
+
+        if (!sessionId) {
+            return res.redirect("/");
+        }
+
         await UserClient.updateOne({ email }, { $set: { sessionId } });
 
         res.cookie("request_token", {}, { maxAge: 0, httpOnly: true });
@@ -174,6 +179,10 @@ router.post("/signup", async (req, res) => {
     };
     const oldUser = await UserClient.findOne({ email });
 
+    if (password.length < 8) {
+        options.error = "Password must be at least 8 characters length";
+        return res.render("client-sign", options);
+    }
     if (oldUser) {
         options.error = "User already exists, please login";
         return res.render("client-sign", options);
@@ -204,7 +213,7 @@ router.post("/login", async (req, res) => {
     const isValidPassword = await bcrypt.compare(password, user.password);
 
     if (!isValidPassword) {
-        options.error = "Invalid password";
+        options.error = "In valid password";
         return res.render("client-sign", options);
     }
 
