@@ -4,6 +4,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import indexRoute from "./routes/index.js";
+import infoRoute from "./routes/info.js";
 import notFound from "./middleware/not-found.js";
 import filmRoute from "./routes/film.js";
 import formRoute from "./routes/form.js";
@@ -22,6 +23,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use("/", indexRoute);
+app.use("/info", infoRoute);
 app.use("/film", filmRoute);
 app.use("/form", formRoute);
 app.use("/admin", adminRoute);
