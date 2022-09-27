@@ -1,5 +1,5 @@
 <%
-const altText = type === "signup" ? `<div>Already have an account? please <a href="/login">Log in</a></div>` : `<div>Don't have an account? please <a href="/signup">sign up</a></div>`;
+const altText = type === "signup" ? `<div style="font-size:12.5px;">Already have an account? please <a href="/login">Log in</a></div>` : `<div style="font-size:12.5px;">Don't have an account? please <a href="/signup">sign up</a></div>`;
 %>
 
 <!DOCTYPE html>
@@ -28,7 +28,7 @@ const altText = type === "signup" ? `<div>Already have an account? please <a hre
                 <%= error %>
             </div>
         <% } %>
-        <form action="/<%= type %>" method="post" class="sign-form container-sm">
+        <form action="/<%= type %>" method="post" class="sign-form container-sm" style="max-width:500px;">
             <input type="email" name="email" required id="email-input" class="form-control mt-3 mb-2" placeholder="Email">
             <input type="password" name="password" required id="password-input" class="form-control mt-3 mb-2" placeholder="Password">
             <input type="hidden" name="original_url" value="<%= encodeURIComponent(originalUrl) %>">
