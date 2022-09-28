@@ -7,7 +7,8 @@ const signStatus = async (req, res, next) => {
     const userClientToken = req.cookies.user_client_token;
     const result = {
         isSigned: false,
-        hasSessionId: false
+        hasSessionId: false,
+        sessionId: null
     };
 
     if (!userClientToken) {
@@ -28,6 +29,7 @@ const signStatus = async (req, res, next) => {
 
         result.isSigned = true;
         result.hasSessionId = !!user.sessionId;
+        result.sessionId = user.sessionId;
         req.signStatus = result;
 
         next();

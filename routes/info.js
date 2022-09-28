@@ -1,4 +1,5 @@
 import { Router } from "express";
+import fetch from "node-fetch";
 import Film from "../database/model/film.js";
 import { getFilm, getTrailerKey, getMainInformations, getCast } from "../utils/film.js";
 import { formatFilmDuration } from "../utils/formatter.js";
@@ -43,10 +44,32 @@ router.get("/:id", signStatus, async (req, res) => {
 });
 
 router.post("/:id/rating", signStatus, async (req, res) => {
-    const { isSigned, hasSessionId } = req.signStatus;
+    const { isSigned, hasSessionId, sessionId } = req.signStatus;
+    const { id: filmId } = req.params;
+    const { rate } = req.body;
+
     if (!(isSigned && hasSessionId)) {
         return res.redirect("/login");
     }
+    if (isSigned && !hasSessionId) {
+        return res.redirect("/request_token");
+    }
+
+    const rawRatingData = await fetch(`https://api.themoviedb.org/3/movie/${filmId}/rating?session_id=${sessionId}&api_key=${filmKey}`, {
+        method: "POST",
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ value: parseFloat(rate) })
+    });
+    const ratingData = await rawRatingData.json();
+
+    if (!ratingData.success) {
+        return res.status(400).send("An error occurred");
+    }
+
+    res.redirect(`/info/${filmId}`);
 });
 
 export default router;
