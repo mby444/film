@@ -1,8 +1,5 @@
-import jwt from "jsonwebtoken";
 import Request from "../database/model/request.js";
-import UserClient from "../database/model/user-client.js";
-
-const { ACCESS_USER_KEY: userKey } = process.env;
+import FilmRating from "../database/model/film-rating.js";
 
 const saveReq = async (filmId, filmTitle, filmDate) => {
     const oldRequest = await Request.findOne({ filmId });
@@ -18,21 +15,60 @@ const saveReq = async (filmId, filmTitle, filmDate) => {
     }
 };
 
-// const getUserClientObj = async (encodedEmail) => {
-//     const output = {
-//         error: null,
-//         user: null
-//     };
+const getUserRating = async (filmId, email) => {
+    const filmRating = await FilmRating.findOne({ filmId });
+    if (!(email && filmRating)) return null;
 
-//     try {
-//         const decodedEmailObj = jwt.verify(encodedEmail, userKey);
-//         const user = await UserClient.findOne({ email: decodedEmailObj.email });
-//         output.user = user;
-//         return output;
-//     } catch (err) {
-//         output.error = err;
-//         return output;
-//     }
-// };
+    const userRating = filmRating.ratings.find((rating) => {
+        return rating.email === email.toLowerCase();
+    });
+    
+    return userRating;
+};
 
-export { saveReq };
+const saveFilmRating = async (filmId, email, value) => {
+    const filmRating = await FilmRating.findOne({ filmId });
+
+    if (filmRating) {
+        const userRatingIndex = filmRating.ratings.findIndex((rating) => {
+            return email.toLowerCase() === rating.email
+        });
+
+        const ratings = Object.assign([], filmRating.ratings);
+
+        if (userRatingIndex !== -1) ratings[userRatingIndex].value = parseFloat(value);
+        else ratings.push({ email: email.toLowerCase(), value: parseFloat(value) });
+
+        await FilmRating.updateOne({ filmId }, { $set: { ratings } });
+    } else {
+        await FilmRating.create({
+            filmId,
+            ratings: [{
+                email: email.toLowerCase(),
+                value: parseFloat(value)
+            }]
+        });
+    }
+};
+
+const deleteFilmRating = async (filmId, email) => {
+    const filmRating = await FilmRating.findOne({ filmId });
+    if (!filmRating) return;
+
+    filmRating.ratings = filmRating.ratings.filter((rating) => {
+        return rating.email !== email.toLowerCase();
+    });
+
+    if (!filmRating.ratings.length) {
+        await FilmRating.deleteOne({ filmId });
+        return;
+    }
+
+    await FilmRating.updateOne({ filmId }, {
+        $set: {
+            ratings: filmRating.ratings
+        }
+    });
+};
+
+export { saveReq, getUserRating, saveFilmRating, deleteFilmRating };

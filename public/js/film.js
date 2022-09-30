@@ -1,5 +1,8 @@
 const castContainer = document.querySelector(".cast-container");
 const castBtn = document.querySelector(".cast-btn");
+const updateRatingBtn = document.querySelector(".update-rating-btn");
+const submitRatingBtn = document.querySelector(".submit-rating-btn");
+const ratingStars = document.querySelectorAll(".rating-form .rate input");
 let filmId = 0;
 
 const sendFilmRequest = async (filmId, filmTitle, filmDate) => {
@@ -111,6 +114,11 @@ const showAllCasts = async () => {
     castContainer.innerHTML = castElements.join("");
 };
 
+const enableRatingBtn = () => {
+    submitRatingBtn?.classList.remove("disabled");
+    updateRatingBtn?.classList.remove("disabled");
+};
+
 const loadWindow = (_filmId="") => {
     filmId = parseInt(_filmId);
     checkReqBtn();
@@ -120,4 +128,10 @@ castBtn?.addEventListener("click", async () => {
     showLoader(".cast-btn");
     await showAllCasts();
     castBtn.style.display = "none";
+});
+
+ratingStars.forEach((star) => {
+    star.addEventListener("change", () => {
+        enableRatingBtn();
+    });
 });

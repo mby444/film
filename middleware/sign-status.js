@@ -8,6 +8,7 @@ const signStatus = async (req, res, next) => {
     const result = {
         isSigned: false,
         hasSessionId: false,
+        email: null,
         sessionId: null
     };
 
@@ -29,6 +30,7 @@ const signStatus = async (req, res, next) => {
 
         result.isSigned = true;
         result.hasSessionId = !!user.sessionId;
+        result.email = email;
         result.sessionId = user.sessionId;
         req.signStatus = result;
 
@@ -36,6 +38,8 @@ const signStatus = async (req, res, next) => {
     } catch (err) {
         result.isSigned = false;
         result.hasSessionId = false;
+        result.email = null;
+        result.sessionId = null;
         req.signStatus = result;
 
         next();
