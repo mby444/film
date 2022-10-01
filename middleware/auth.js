@@ -1,4 +1,3 @@
-import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../database/model/user.js";
 
@@ -13,7 +12,7 @@ const auth = async (req, res, next) => {
         const user = jwt.verify(userToken, accesskey);
 
         if (!userToken) return res.redirect(`/admin/login?original_url=${encOriginalUrl}`);
-        const userData = await User.findOne({ email: user.email });
+        const userData = await User.findOne({ email: { $regex: new RegExp(user.email, "i") } });
         if (!userData) return res.redirect(`/admin/login?original_url=${encOriginalUrl}&error=invalid`);
 
         req.user = user;

@@ -160,7 +160,7 @@ router.post("/login", async (req, res) => {
         type: "login",
         originalUrl
     };
-    const user = await UserClient.findOne({ email });
+    const user = await UserClient.findOne({ email: { $regex: new RegExp(email, "i") } });
     
     if (!user) {
         options.error = "You have not signed yet, please sign up";

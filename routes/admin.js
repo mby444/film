@@ -119,12 +119,13 @@ router.post("/user/new", async (req, res) => {
 router.post("/logged", async (req, res) => {
     const { email, password, original_url } = req.body;
     const encOriginalUrl = encodeURIComponent(original_url);
-    const user = await User.findOne({ email });
-    const isValidPassword = bcrypt.compareSync(password, user.password);
+    const user = await User.findOne({ email: { $regex: new RegExp(email, "i") } });
 
     if (!user) {
         return res.redirect(`/admin/login?original_url=${encOriginalUrl}&error=invalid`);
     }
+    const isValidPassword = bcrypt.compareSync(password, user.password);
+
     if (!isValidPassword) {
         return res.redirect(`/admin/login?original_url=${encOriginalUrl}&error=invalid`)
     }
