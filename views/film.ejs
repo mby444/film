@@ -95,7 +95,6 @@ const checkStar = (number) => parseFloat(number) === userRating?.value ? "checke
         <% } %>
         <h3 class="h3 text-center mt-5 mb-4">Rate</h3>
         <form action="/info/<%= film.id %>/rating" method="post" class="rating-form container d-flex justify-content-center align-items-center">
-            <!-- <div class="rate-responsive"> -->
                 <div class="rate">
                     <input type="radio" id="star10" name="rate" value="10" <%= checkStar(10) %> />
                     <label for="star10" title="text">10 stars</label>
@@ -118,13 +117,12 @@ const checkStar = (number) => parseFloat(number) === userRating?.value ? "checke
                     <input type="radio" id="star1" name="rate" value="1" <%= checkStar(1) %> />
                     <label for="star1" title="text">1 star</label>
                 </div>
-            <!-- </div> -->
             <div class="rating-btn-container">
                 <% if (!signStatus.isSigned) { %>
-                    <a href="/login" class="btn btn-sm btn-outline-dark">Log in</a>
-                    <a href="/signup" class="btn btn-sm btn-dark">Sign up</a>
+                    <a href="/login?redirect_to=<%= encodeURIComponent(`/info/${film.id}`) %>" class="btn btn-sm btn-outline-dark">Log in</a>
+                    <a href="/signup?redirect_to=<%= encodeURIComponent(`/info/${film.id}`) %>" class="btn btn-sm btn-dark">Sign up</a>
                 <% } else if (signStatus.isSigned && !signStatus.hasSessionId) { %>
-                    <a href="/request_token" class="btn btn-sm btn-dark">Log in to TMDB</a>
+                    <a href="/request_token?redirect_to=<%= encodeURIComponent(`/info/${film.id}`) %>" class="btn btn-sm btn-dark">Log in to TMDB</a>
                 <% } else if (userRating) { %>
                     <a href="/info/<%= film.id %>/rating/delete" class="btn btn-sm btn-danger">Delete</a>
                     <button type="submit" class="update-rating-btn btn btn-sm btn-dark disabled">Update</button>

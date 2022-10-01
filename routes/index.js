@@ -46,11 +46,13 @@ router.get("/search", signStatus, async (req, res) => {
 
 router.get("/signup", (req, res) => {
     const { originalUrl } = req;
+    const { redirect_to: redirectTo="/" } = req.query;
     const options = {
         error: null,
         title: "Sign Up",
         type: "signup",
-        originalUrl
+        originalUrl,
+        redirectTo
     };
 
     res.render("client-sign", options);
@@ -58,22 +60,40 @@ router.get("/signup", (req, res) => {
 
 router.get("/login", (req, res) => {
     const { originalUrl } = req;
+    const { redirect_to: redirectTo="/" } = req.query;
     const options = {
         error: null,
         title: "Log In",
         type: "login",
-        originalUrl
+        originalUrl,
+        redirectTo
     };
 
     res.render("client-sign", options);
 });
 
-router.get("/sign_choice", authClient, (req, res) => {
-    res.render("sign-choice");
+router.get("/sign_choice", authClient, async (req, res) => {
+    const { redirect_to: redirectTo="/" } = req.query;
+    const { email } = req.user;
+    const decRedirectTo = decodeURIComponent(redirectTo);
+    const emailRegex = new RegExp(email, "i");
+    const user = await UserClient.find({ email: { $regex: emailRegex } });
+    const options = {
+        redirectTo: decRedirectTo
+    }
+
+    if (user.length > 1) {
+        await UserClient.deleteMany({ email: { $regex: emailRegex } });
+        await UserClient.create({ email, password: user[0].password });
+    }
+
+    res.render("sign-choice", options);
 });
 
 router.get("/request_token", authClient, async (req, res) => {
-    const fullUrl = `${baseUrl}/session`;
+    const { redirect_to: redirectTo="/" } = req.query;
+    const encRedirectTo = encodeURIComponent(redirectTo);
+    const fullUrl = `${baseUrl}/session?redirect_to=${encRedirectTo}`;
     const rawReqToken = await fetch(`https://api.themoviedb.org/3/authentication/token/new?api_key=${filmKey}`);
     const { request_token: reqToken } = await rawReqToken.json();
 
@@ -83,8 +103,10 @@ router.get("/request_token", authClient, async (req, res) => {
 
 router.get("/session", authClient, async (req, res) => {
     const reqToken = req.cookies.request_token;
+    const { redirect_to: redirectTo="/" } = req.query;
     const { email } = req.user;
     const { originalUrl } = req;
+    const decRedirectTo = decodeURIComponent(redirectTo);
     try {
         if (!reqToken) throw new Error("Session expired");
         const rawSessionId = await fetch(`https://api.themoviedb.org/3/authentication/session/new?api_key=${filmKey}`, {
@@ -100,13 +122,13 @@ router.get("/session", authClient, async (req, res) => {
         const { session_id: sessionId } = await rawSessionId.json();
 
         if (!sessionId) {
-            return res.redirect("/");
+            return res.status(500).send("An error occurred");
         }
 
         await UserClient.updateOne({ email }, { $set: { sessionId } });
 
         res.cookie("request_token", {}, { maxAge: 0, httpOnly: true });
-        res.redirect("/");
+        res.redirect(decRedirectTo);
     } catch (err) {
         const options = {
             error: err.message,
@@ -127,13 +149,16 @@ router.get("/logout", async (req, res) => {
 
 router.post("/signup", async (req, res) => {
     const { email, password, original_url: originalUrl } = req.body;
+    const { redirect_to: redirectTo="/" } = req.query;
+    const encRedirectTo = encodeURIComponent(redirectTo);
     const options = {
         error: null,
         title: "Sign Up",
         type: "signup",
-        originalUrl
+        originalUrl,
+        redirectTo
     };
-    const oldUser = await UserClient.findOne({ email });
+    const oldUser = await UserClient.findOne({ email: { $regex: new RegExp(email, "i") } });
 
     if (password.length < 8) {
         options.error = "Password must be at least 8 characters length";
@@ -149,11 +174,12 @@ router.post("/signup", async (req, res) => {
     await UserClient.create({ email, password: hashedPassword });
 
     res.cookie("user_client_token", userClientToken, { maxAge: 1000 * 60 * 60 * 24, httpOnly: true });
-    res.redirect("/sign_choice");
+    res.redirect(`/sign_choice?redirect_to=${encRedirectTo}`);
 });
 
 router.post("/login", async (req, res) => {
     const { email, password, original_url: originalUrl } = req.body;
+    const { redirect_to: redirectTo="/" } = req.query;
     const options = {
         error: null,
         title: "Log In",
@@ -180,7 +206,7 @@ router.post("/login", async (req, res) => {
     if (!user.sessionId) {
         return res.redirect("/sign_choice");
     }
-    res.redirect("/");
+    res.redirect(redirectTo);
 });
 
 export default router;
