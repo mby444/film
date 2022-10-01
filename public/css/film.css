@@ -99,4 +99,17 @@ header {
         height: 300px;
         max-width: 550px;
     }
+
+    .rating-form {
+        flex-direction: column;
+    }
+
+    .rating-form .rate {
+        width: 320px;
+        overflow: auto;
+    }
+
+    .rating-btn-container {
+        padding: 10px 0;
+    }
 }

@@ -19,7 +19,7 @@ const signStatus = async (req, res, next) => {
 
     try {
         const { email } = jwt.verify(userClientToken, userKey);
-        const user = await UserClient.findOne({ email });
+        const user = await UserClient.findOne({ email: { $regex: new RegExp(email, "i") } });
 
         if (!user) {
             res.cookie("request_token", "", { maxAge: 0, httpOnly: true });
