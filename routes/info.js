@@ -1,6 +1,5 @@
 import { Router } from "express";
 import fetch from "node-fetch";
-import Film from "../database/model/film.js";
 import { getFilm, getTrailerKey, getMainInformations, getCast } from "../utils/film.js";
 import { formatFilmDuration } from "../utils/formatter.js";
 import { signStatus } from "../middleware/sign-status.js";
@@ -15,7 +14,7 @@ router.get("/:id", signStatus, async (req, res) => {
     const { cast_limit: castLimit=15 } = req.query;
     const { email } = req.signStatus;
     const film = await getFilm(filmId);
-    const userRating = await getUserRating(filmId, email);
+    // const userRating = await getUserRating(filmId, email);
     const { castCount, casts } = await getCast(filmId, castLimit);
 
     if (film.error) {
@@ -26,12 +25,12 @@ router.get("/:id", signStatus, async (req, res) => {
 
     const mainInformations = getMainInformations(film);
     const trailerKey = await getTrailerKey(filmId);
-    const filmDB = await Film.findOne({ filmId }).exec();
+    // const filmDB = await Film.findOne({ filmId }).exec();
 
-    if (filmDB) {
-        film.watchURL = filmDB.url;
-        film.note = filmDB.note;
-    }
+    // if (filmDB) {
+    //     film.watchURL = filmDB.url;
+    //     film.note = filmDB.note;
+    // }
 
     const options = {
         film,
@@ -41,7 +40,6 @@ router.get("/:id", signStatus, async (req, res) => {
             formatFilmDuration
         },
         signStatus: req.signStatus,
-        userRating
     };
     
     res.render("film", options);

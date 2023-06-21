@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import "./database/connection.js";
+// import "./database/connection.js";
 import express from "express";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";

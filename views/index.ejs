@@ -26,17 +26,6 @@
             <h4 class="h4">Film Informations and Trailers</h4>
         </div>
     </header>
-    <div class="container-fluid bg-dark pt-1 pb-1">
-        <% if (signStatus.isSigned && signStatus.hasSessionId) { %>
-            <a href="/logout" class="btn btn-sm btn-outline-danger">Log out</a>
-        <% } else if (signStatus.isSigned && !signStatus.hasSessionId) { %>
-            <a href="/logout" class="btn btn-sm btn-outline-danger">Log out</a>
-            <a href="/request_token" class="btn btn-sm btn-primary">Log in to TMDB</a>
-        <% } else { %>
-            <a href="/login" class="btn btn-sm btn-outline-warning">Log in</a>
-            <a href="/signup" class="btn btn-sm btn-warning">Sign up</a>
-        <% } %>
-    </div>
     <div class="main-container container-fluid pt-5 pb-5">
         <form action="/search" method="get" class="container-md d-flex justify-content-center align-items-center flex-row">
             <input type="text" name="q" id="q-input" value="<%= filmError ? query : "" %>" autocomplete="off" placeholder="Search film..." required accesskey="s" class="form-control" style="max-width:500px;">
